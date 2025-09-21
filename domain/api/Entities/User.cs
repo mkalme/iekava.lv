@@ -9,10 +9,24 @@ public class User
     public string PasswordHash { get; set; }
     public ICollection<Role> Roles { get; set; } = [];
 
+    public User(){}
+
     public User(string username, string password, ICollection<Role> roles) 
     {
-        Username = username;
-        PasswordHash = new PasswordHasher<User>().HashPassword(this, password);
+        Update(username, password);
         Roles = roles;
+    }
+
+    public void Update(string? username, string? password) 
+    {
+        if (!string.IsNullOrEmpty(username)) 
+        {
+            Username = username;
+        }
+
+        if (!string.IsNullOrEmpty(password)) 
+        {
+            PasswordHash = new PasswordHasher<User>().HashPassword(this, password);
+        }
     }
 }
