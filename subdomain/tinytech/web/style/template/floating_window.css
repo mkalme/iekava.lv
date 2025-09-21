@@ -1,0 +1,13 @@
+.floating-window {
+    position: fixed;
+    background: var(--floating-window-background);
+    background-size: var(--floating-window-background-size);
+    backdrop-filter: var(--floating-window-backdrop-filter);
+    box-shadow: var(--floating-window-box-shadow);
+    border: var(--floating-window-border);
+    border-radius: var(--floating-window-border-radius);
+    transition: var(--transition);
+    padding: 1.25rem;
+    z-index: 1000;
+    display: none;
+}

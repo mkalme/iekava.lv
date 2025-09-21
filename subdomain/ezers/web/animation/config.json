@@ -1,0 +1,25 @@
+{
+    "scene": {
+        "numParticles": 50000,
+        "padding": 0
+    },
+    "depth": {
+        "minParticleSize": 16,
+        "maxParticleSize": 128,
+        "minParticleColor": [0.07, 0.07, 0.07],
+        "maxParticleColor": [0.8, 0.8, 0.8]
+    },
+    "animation": {
+        "minParticleSpeedFactor": 2,
+        "maxParticleSpeedFactor": 10,
+        "minParticleMouseInfluence": 5,
+        "maxParticleMouseInfluence": 1000
+    },
+    "visual": {
+        "chars": "★",
+        "charSize": 128,
+        "padding": 0,
+        "atlasCols": 16,
+        "canvasBackground": [0.058, 0.058, 0.058]
+    }
+}

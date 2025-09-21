@@ -1,0 +1,35 @@
+.toolbar-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0px; 
+    padding: 0px;
+    border: 0px solid #ddd;
+    background-color: transparent;
+    border-radius: 0px;
+    cursor: pointer;
+}
+
+.toolbar-button .toolbar-button-image {
+    width: 1.4rem;
+    height: 1.4rem;
+    filter: brightness(var(--icon-brightness));
+    transition: filter 0.3s ease;
+}
+
+.toolbar-button .toolbar-button-text {
+    font-size: 0.9rem;
+    color: hsl(0, 0%, calc(100% * var(--icon-brightness)));
+    margin-top: 0.28rem;
+    font-family: var(--font-family);
+    transition: color 0.3s ease;
+}
+
+.toolbar-button:hover .toolbar-button-image {
+    filter: brightness(var(--icon-brightness-hover));
+}
+
+.toolbar-button:hover .toolbar-button-text {
+    color: hsl(0, 0%, calc(100% * var(--icon-brightness-hover)));
+}

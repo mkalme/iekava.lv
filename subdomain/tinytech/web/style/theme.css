@@ -1,0 +1,250 @@
+:root {
+    --accent-color: #8e4585;
+    --text-color: black;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-family: 'Arial', Tahoma, Geneva, Verdana, sans-serif;
+    --highlight-color: yellow;
+
+    --background:
+        linear-gradient(135deg, rgba(139, 69, 193, 0.28) 0%, rgba(139, 69, 193, 0.12) 25%, transparent 55%), 
+        linear-gradient(225deg, rgba(59, 130, 246, 0.24) 0%, rgba(59, 130, 246, 0.08) 30%, transparent 50%), 
+        radial-gradient(ellipse at 50% 30%, rgba(236, 72, 153, 0.16) 0%, rgba(236, 72, 153, 0.06) 35%, rgba(236, 72, 153, 0.02) 55%, transparent 75%), 
+        radial-gradient(ellipse at 80% 0%, rgba(16, 185, 129, 0.14) 0%, rgba(16, 185, 129, 0.04) 35%, transparent 60%), 
+        radial-gradient(ellipse at 20% 100%, rgba(139, 69, 193, 0.12) 0%, rgba(139, 69, 193, 0.03) 45%, transparent 70%), 
+        linear-gradient(270deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 20%, transparent 40%), 
+        radial-gradient(ellipse at 75% 60%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+        white;
+    --background-size: 100% 100%;
+
+    --toolbar-background:
+        rgba(255, 255, 255, 0.3);
+    --toolbar-background-size: 100% 100%;
+    --toolbar-backdrop-filter: blur(32px);
+    --toolbar-box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.05);
+
+    --floating-window-background: rgba(255, 255, 255, 0.4);
+    --floating-window-background-size: 100% 100%;
+    --floating-window-backdrop-filter: blur(32px);
+    --floating-window-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+    --floating-window-border: 1px solid transparent;
+    --floating-window-border-radius: 0.7rem;
+
+    --icon-brightness: 0.05;
+    --icon-brightness-hover: 1;
+
+    --round-button-text-color: black;
+    --round-button-background: white;
+    --round-button-background-hover: #caacc5;
+    --round-button-background-active: #bb90b5;
+    --round-button-background-active-dark: #a1719c;
+    --round-button-background-shine: rgba(255, 255, 255, 0.7);
+    --round-button-border-width: 0px;
+    --round-button-border-color: transparent;
+
+    --table-header-background: white;
+    --table-row-odd-background: #f7f3f6;
+    --table-row-even-background: white;
+    --table-text-color: black;
+    --table-inter-border: 1px solid #ddd;
+    --table-detail-row-background: rgba(248, 248, 248, 1);
+    --table-detail-row-background-hover: #EAD5E7;
+
+    --searchbar-background: rgba(255, 255, 255, 0.8);
+    --searchbar-background-focus: white;
+
+    --textbox-background: white;
+    --textbox-background-focus: white;
+
+    --accessibility-window-font-size-background: white;
+}
+
+[data-theme="light"] {
+    --icon-brightness: 0.06;
+}
+
+[data-theme="dark"] {
+    --accent-color: #8e4585;
+    --text-color: #e0e0e0;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --highlight-color: rgba(255, 128, 0, 1);
+
+    --background:
+        linear-gradient(135deg, rgba(139, 69, 193, 0.2) 0%, rgba(139, 69, 193, 0.08) 25%, transparent 55%), 
+        linear-gradient(225deg, rgba(59, 130, 246, 0.18) 0%, rgba(59, 130, 246, 0.06) 30%, transparent 50%), 
+        radial-gradient(ellipse at 50% 30%, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0.04) 35%, rgba(236, 72, 153, 0.01) 55%, transparent 75%), 
+        radial-gradient(ellipse at 80% 0%, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.03) 35%, transparent 60%), 
+        radial-gradient(ellipse at 20% 100%, rgba(139, 69, 193, 0.08) 0%, rgba(139, 69, 193, 0.02) 45%, transparent 70%), 
+        linear-gradient(270deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.01) 20%, transparent 40%), 
+        radial-gradient(ellipse at 75% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 50%),
+        #0f0f1a;
+    --background-size: 100% 100%;
+
+    --toolbar-background:
+        rgba(0, 0, 0, 0.15);
+    --toolbar-background-size: 100% 100%;
+    --toolbar-backdrop-filter: blur(32px);
+    --toolbar-box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.05);
+
+    --floating-window-background: rgba(0, 0, 0, 0.4);
+    --floating-window-background-size: 100% 100%;
+    --floating-window-backdrop-filter: blur(32px);
+    --floating-window-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+    --floating-window-border: 1px solid transparent;
+    --floating-window-border-radius: 0.7rem;
+
+    --icon-brightness: 0.95;
+    --icon-brightness-hover: 0.5;
+
+    --round-button-text-color: white;
+    --round-button-background: #2a2a2a;
+    --round-button-background-hover: #4a3d47;
+    --round-button-background-active: #5d4a57;
+    --round-button-background-active-dark: #6f5c69;
+    --round-button-background-shine: rgba(255, 255, 255, 0.1);
+    --round-button-border-width: 0px;
+    --round-button-border-color: transparent;
+
+    --table-header-background: rgba(40, 40, 40, 1);
+    --table-row-odd-background: rgba(55, 55, 55, 1);
+    --table-row-even-background: rgba(40, 40, 40, 1);
+    --table-text-color: white;
+    --table-inter-border: 1px solid #444444;
+    --table-detail-row-background: rgba(60, 60, 60, 1);
+    --table-detail-row-background-hover: rgba(80, 80, 80, 1);
+
+    --searchbar-background: rgba(40, 40, 40, 1);
+    --searchbar-background-focus: rgba(20, 20, 20, 1);
+
+    --textbox-background: rgba(40, 40, 40, 1);
+    --textbox-background-focus: rgba(40, 40, 40, 1);
+
+    --accessibility-window-font-size-background: rgba(50, 50, 50, 1);
+}
+
+[data-theme="contrast-dark"] {
+    --accent-color: rgba(40, 40, 40, 1);
+    --text-color: white;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --highlight-color: rgba(255, 128, 0, 1);
+
+    --background: black;
+    --toolbar-background:
+        rgba(20, 20, 20, 1);
+
+    --floating-window-background: rgba(0, 0, 0, 1);
+    --floating-window-border: 1px solid white;
+    --floating-window-border-radius: 0rem;
+
+    --icon-brightness: 1;
+    --icon-brightness-hover: 0.5;
+
+    --round-button-text-color: white;
+    --round-button-background: black;
+    --round-button-background-hover: rgba(70, 70, 70, 1);
+    --round-button-background-active: rgba(100, 100, 100, 1);
+    --round-button-background-active-dark: rgba(100, 100, 100, 1);
+    --round-button-background-shine: none;
+    --round-button-border-width: 2px;
+    --round-button-border-color: white;
+
+    --table-header-background: black;
+    --table-row-odd-background: rgba(30, 30, 30, 1);
+    --table-row-even-background: black;
+    --table-text-color: white;
+    --table-inter-border: 1px solid white;
+    --table-detail-row-background: black;
+    --table-detail-row-background-hover: black;
+
+    --searchbar-background: black;
+    --searchbar-background-focus: black;
+
+    --textbox-background: black;
+    --textbox-background-focus: black;
+
+    --accessibility-window-font-size-background: black;
+}
+
+[data-theme="yellow"] {
+    --accent-color: #4C4A21;
+    --text-color: black;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --highlight-color: white;
+
+    --background: #FFF86E;
+    --toolbar-background: #FFF86E;
+
+    --floating-window-background: #FFF86E;
+    --floating-window-border: 1px solid black;
+    --floating-window-border-radius: 0rem;
+
+    --icon-brightness: 0;
+    --icon-brightness-hover: 0.7;
+
+    --round-button-text-color: black;
+    --round-button-background: #FFF86E;
+    --round-button-background-hover: rgba(120, 120, 120, 1);
+    --round-button-background-active: rgba(160, 160, 160, 1);
+    --round-button-background-active-dark: rgba(160, 160, 160, 1);
+    --round-button-background-shine: none;
+    --round-button-border-width: 2px;
+    --round-button-border-color: yellow;
+
+    --table-header-background: #FFF86E;
+    --table-row-odd-background: #FFF86E;
+    --table-row-even-background: #FFF86E;
+    --table-text-color: black;
+    --table-inter-border: 1px solid black;
+    --table-detail-row-background: #FFF86E;
+    --table-detail-row-background-hover: #E2DC63;
+
+    --searchbar-background: #FFF86E;
+    --searchbar-background-focus: #FFF86E;
+
+    --textbox-background: #FFF86E;
+    --textbox-background-focus: #FFF86E;
+
+    --accessibility-window-font-size-background: transparent;
+}
+
+[data-theme="contrast-yellow"] {
+    --accent-color: yellow;
+    --text-color: yellow;
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --highlight-color: rgba(255, 128, 0, 1);
+
+    --background: black;
+    --toolbar-background:
+        rgba(20, 20, 20, 1);
+
+    --floating-window-background: rgba(0, 0, 0, 1);
+    --floating-window-border: 1px solid yellow;
+    --floating-window-border-radius: 0rem;
+
+    --icon-brightness: 1;
+    --icon-brightness-hover: 0.5;
+
+    --round-button-text-color: yellow;
+    --round-button-background: black;
+    --round-button-background-hover: rgba(70, 70, 70, 1);
+    --round-button-background-active: rgba(100, 100, 100, 1);
+    --round-button-background-active-dark: rgba(100, 100, 100, 1);
+    --round-button-background-shine: none;
+    --round-button-border-width: 2px;
+    --round-button-border-color: yellow;
+
+    --table-header-background: black;
+    --table-row-odd-background: rgba(30, 30, 30, 1);
+    --table-row-even-background: black;
+    --table-text-color: yellow;
+    --table-inter-border: 1px solid yellow;
+    --table-detail-row-background: black;
+    --table-detail-row-background-hover: black;
+
+    --searchbar-background: black;
+    --searchbar-background-focus: black;
+
+    --textbox-background: black;
+    --textbox-background-focus: black;
+
+    --accessibility-window-font-size-background: black;
+}

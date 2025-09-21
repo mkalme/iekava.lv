@@ -1,0 +1,29 @@
+.searchbar {
+    font-family: var(--font-family);
+    width: 100%;
+    padding: 0.58rem 1rem;
+    background-color: var(--searchbar-background);
+    border-width: 2px;
+    border-color: var(--round-button-border-color);
+    border-radius: 1.1rem;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0.03rem 0.07rem var(--round-button-background-active);
+}
+
+.searchbar:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    background-color: var(--searchbar-background-focus);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    color: #666;
+    pointer-events: none;
+}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Employees</title>
+        <link rel="icon" href="resource/icon.png">
+        <link rel="stylesheet" href="style/style.css">
+        <script type="module" src="module/language/language.js"></script>
+        <script type="module" src="module/style.js"></script>
+        <script type="module" src="module/api/api.js"></script>
+        <script type="module" src="module/app.js"></script>
+    </head>
+    <body>
+        <div id="toolbar-div">
+            <h1>TinyTech</h1>
+            <div id="toolbar-button-div">
+                <button id="theme-button" class="toolbar-button">
+                    <img class="toolbar-button-image" src="resource/light_theme_icon.svg">
+                    <span language-code="home.titlebar.theme" id="theme-button-text" class="toolbar-button-text">Dark theme</span>
+                </button>
+                <button id="language-button" class="toolbar-button">
+                    <img class="toolbar-button-image" src="resource/language_icon.svg">
+                    <span language-code="home.titlebar.language" class="toolbar-button-text">Language</span>
+                </button>
+                <button id="accessibility-button" class="toolbar-button">
+                    <img class="toolbar-button-image" src="resource/accessibility_icon.svg">
+                    <span language-code="home.titlebar.accessibility" class="toolbar-button-text">Accessibility</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="body-div">
+            <div id="table-div">
+                <div id="table-button-div">
+                    <div class="search-container">
+                        <input id="table-search" language-code="home.table.search.placeholder" type="search" class="searchbar" placeholder="Keywords or column (e.g. first-name:leo)">
+                        <span class="search-icon">🔍</span>
+                    </div>
+
+                    <button id="filter-button" class="round-button">
+                        <img class="round-button-icon" src="resource/filter_icon.svg">
+                        <span language-code="home.table.filter">Filter</span>
+                    </button>
+                    <button id="sort-button" class="round-button">
+                        <img class="round-button-icon" src="resource/sort_by_icon.svg">
+                        <span language-code="home.table.sort">Sort by</span>
+                    </button>
+                </div>
+                <div class="table-scroll-container">
+                    <table id="employee-table">
+                        <tr>
+                            <th language-code="home.table.column.id" id="id">Id</th>
+                            <th language-code="home.table.column.first-name" id="first-name">First name</th>
+                            <th language-code="home.table.column.last-name" id="last-name">Last name</th>
+                            <th language-code="home.table.column.joined" id="joined">Joined</th>
+                            <th language-code="home.table.column.title" id="title">Title</th>
+                            <th language-code="home.table.column.email" id="email">Email</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-results-div" class="no-results" language-code="home.table.search.no-results" style="display: none;">
+            No results found. Try a different search term.
+        </div>
+
+        <div class="floating-window" id="theme-window" style="display: none;">
+            <button id="light-theme-button" class="theme-button" value="light">
+                <img class="theme-button-icon" src="resource/light_theme_icon.svg">
+                <span language-code="home.titlebar.theme.light" class="theme-button-text">Light</span>
+            </button>
+            <button id="dark-theme-button" class="theme-button" value="dark">
+                <img class="theme-button-icon" src="resource/dark_theme_icon.svg">
+                <span language-code="home.titlebar.theme.dark" class="theme-button-text">Dark</span>
+            </button>
+        </div>
+
+        <div class="floating-window" id="language-window" style="display: none;"></div>
+
+        <div class="floating-window" id="accessibility-window" style="display: none;">
+            <h3 language-code="accessibility.font-scale">Font scale</h3>
+            <div class="font-size-buttons">
+                <button class="font-size-button" value="100">100%</button>
+                <button class="font-size-button" value="150">150%</button>
+                <button class="font-size-button" value="200">200%</button>
+            </div>
+            
+            <h3 language-code="accessibility.contrast">Contrast</h3>
+            <div class="contrast-buttons">
+                <button class="contrast-button light" value="none">
+                    <span class="eye-icon">👁</span>
+                </button>
+                <button class="contrast-button dark" value="contrast-dark">
+                    <span class="eye-icon">👁</span>
+                </button>
+                <button class="contrast-button yellow" value="yellow">
+                    <span class="eye-icon">👁</span>
+                </button>
+                <button class="contrast-button black" value="contrast-yellow">
+                    <span class="eye-icon">👁</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="floating-window" id="filter-window" style="display: none;">
+            <div id="filter-first-name-div">
+                <h3 language-code="home.table.filter.first-name">First name regex</h3>
+                <input id="filter-firstName" type="search" class="filter-search-input" placeholder="^[A-Za-z]{2,30}$">
+            </div>
+            
+            <div id="filter-last-name-div">
+                <h3 language-code="home.table.filter.last-name">Last name regex</h3>
+                <input id="filter-lastName" type="search" class="filter-search-input" placeholder="^[A-Za-z]{2,20}$">
+            </div>
+
+            <div id="filter-joined-div">
+                <h3 language-code="home.table.filter.joined">Joined</h3>
+                <div class="date-inputs-container">
+                    <div>
+                        <label language-code="home.table.filter.joined.from" for="from-date">From</label><br>
+                        <input type="date" id="filter-from-date" required>
+                    </div>
+                    <div>
+                        <label language-code="home.table.filter.joined.to" for="to-date">To</label><br>
+                        <input type="date" id="filter-to-date" required>
+                    </div>
+                </div>
+            </div>
+
+            <div id="filter-titles-div">
+                <h3 language-code="home.table.filter.title">Title</h3>
+                <div id="filter-title-div"></div>
+            </div>
+
+            <div id="filter-email-div">
+                <h3 language-code="home.table.filter.email">Email regex</h3>
+                <input id="filter-email" type="search" class="filter-search-input" placeholder="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+            </div>
+
+            <button class="round-button" id="apply-filter-button">
+                <span language-code="home.table.filter.apply">Apply filter</span>
+            </button>
+        </div>
+
+        <div class="floating-window" id="sort-window" style="display: none;">
+            <button language-code="home.table.sort.id" class="sort-button" value="0">Id</button>
+            <button language-code="home.table.sort.first-name" class="sort-button" value="1">First name</button>
+            <button language-code="home.table.sort.last-name" class="sort-button" value="2">Last name</button>
+            <button language-code="home.table.sort.full-name" class="sort-button" value="3">First + Last name</button>
+            <button language-code="home.table.sort.joined" class="sort-button" value="4">Joined</button>
+            <button language-code="home.table.sort.title" class="sort-button" value="5">Title</button>
+            <button language-code="home.table.sort.email" class="sort-button" value="6">Email</button>
+        </div>
+    </body>
+</html>

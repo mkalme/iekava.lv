@@ -1,0 +1,13 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Back wave (darkest) -->
+  <path d="M0 40 Q15 20 30 40 T60 40 T90 40 Q95 35 100 40 L100 100 L0 100 Z" 
+        fill="#4A4A4A"/>
+  
+  <!-- Middle wave -->
+  <path d="M0 55 Q15 35 30 55 T60 55 T90 55 Q95 50 100 55 L100 100 L0 100 Z" 
+        fill="#A0A0A0"/>
+  
+  <!-- Front wave (brightest, almost white) -->
+  <path d="M0 68 Q15 50 30 68 T60 68 T90 68 Q95 63 100 68 L100 100 L0 100 Z" 
+        fill="#F5F5F5"/>
+</svg>

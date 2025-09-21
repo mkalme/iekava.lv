@@ -1,0 +1,112 @@
+[
+    {
+        "id": 0,
+        "name": "Lia Change",
+        "title": "Manager",
+        "email": "lin.chang@example.com",
+        "startDate": "2024-02-01",
+        "phone": "555-0142",
+        "hourlyPay": 45.50,
+        "department": "Operations"
+    },
+    {
+        "id": 1,
+        "name": "Marcus Rodriguez",
+        "title": "Software Engineer",
+        "email": "marcus.rodriguez@example.com",
+        "startDate": "2023-08-15",
+        "phone": "555-0187",
+        "hourlyPay": 52.75,
+        "department": "Engineering"
+    },
+    {
+        "id": 2,
+        "name": "Sarah Johnson",
+        "title": "Product Designer",
+        "email": "sarah.johnson@example.com",
+        "startDate": "2022-11-03",
+        "phone": "555-0293",
+        "hourlyPay": 48.25,
+        "department": "Design"
+    },
+    {
+        "id": 3,
+        "name": "David Kim",
+        "title": "Data Analyst",
+        "email": "david.kim@example.com",
+        "startDate": "2024-01-20",
+        "phone": "555-0356",
+        "hourlyPay": 41.00,
+        "department": "Analytics"
+    },
+    {
+        "id": 4,
+        "name": "Emma Thompson",
+        "title": "Marketing Specialist",
+        "email": "emma.thompson@example.com",
+        "startDate": "2023-05-12",
+        "phone": "555-0421",
+        "hourlyPay": 38.75,
+        "department": "Marketing"
+    },
+    {
+        "id": 5,
+        "name": "James Wilson",
+        "title": "DevOps Engineer",
+        "email": "james.wilson@example.com",
+        "startDate": "2023-09-07",
+        "phone": "555-0518",
+        "hourlyPay": 55.50,
+        "department": "Engineering"
+    },
+    {
+        "id": 6,
+        "name": "Priya Patel",
+        "title": "UX Researcher",
+        "email": "priya.patel@example.com",
+        "startDate": "2024-03-22",
+        "phone": "555-0674",
+        "hourlyPay": 46.25,
+        "department": "Design"
+    },
+    {
+        "id": 7,
+        "name": "Alex Chen",
+        "title": "Business Analyst",
+        "email": "alex.chen@example.com",
+        "startDate": "2023-07-14",
+        "phone": "555-0735",
+        "hourlyPay": 43.50,
+        "department": "Business Operations"
+    },
+    {
+        "id": 8,
+        "name": "Lisa Garcia",
+        "title": "HR Coordinator",
+        "email": "lisa.garcia@example.com",
+        "startDate": "2022-12-08",
+        "phone": "555-0892",
+        "hourlyPay": 35.25,
+        "department": "Human Resources"
+    },
+    {
+        "id": 9,
+        "name": "Michael Brown",
+        "title": "Senior Developer",
+        "email": "michael.brown@example.com",
+        "startDate": "2024-04-18",
+        "phone": "555-0947",
+        "hourlyPay": 58.75,
+        "department": "Engineering"
+    },
+    {
+        "id": 10,
+        "name": "Sofia Martinez",
+        "title": "Quality Assurance",
+        "email": "sofia.martinez@example.com",
+        "startDate": "2023-10-25",
+        "phone": "555-1026",
+        "hourlyPay": 40.50,
+        "department": "Quality Assurance"
+    }
+]

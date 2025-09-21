@@ -1,0 +1,12 @@
+input[type="date"] {
+    font-family: var(--font-family);
+    width: 10rem;
+    height: 2rem;
+    border: 1px solid gray;
+    border-radius: 0.4rem;
+    padding: 0.2rem;
+    margin: 0rem;
+    margin-right: 0.5rem;
+    position: relative;
+    transition: all 0.2s ease;
+}
