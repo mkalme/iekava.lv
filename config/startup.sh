@@ -1,1 +1,1 @@
-sudo systemctl start nginx && (dotnet run --project /home/mikelis.kalme/iekava.lv/domain/api)
+sudo systemctl start nginx && (sudo dotnet run --project /home/mikelis.kalme/iekava.lv/domain/api)
