@@ -70,12 +70,12 @@ public static class ServiceCollectionExtensions
             options.AddPolicy("SecurePolicy", policy =>
             {
                 policy.WithOrigins(
-                          "https://iekava.lv",           // Production frontend
-                          "http://localhost:5000"        // Local React/Vue dev server
-                      )
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-                      .AllowCredentials(); // REQUIRED for cookies
+                        "https://iekava.lv",           // Production frontend
+                        "http://localhost:5000"        // Local React/Vue dev server
+                    )
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials(); // REQUIRED for cookies
             });
         });
         

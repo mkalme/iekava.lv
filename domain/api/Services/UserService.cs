@@ -1,27 +1,46 @@
 
-using BCrypt.Net;
+using Microsoft.AspNetCore.Identity;
+using YourApp.Entity;
 
 namespace YourApp.Services;
 
-public class UserService : IUserService
+public class UserService(AppDbContext _dbContext) : IUserService
 {
     public async Task<bool> ValidateCredentialsAsync(string username, string password)
     {
-        // Simulate database lookup with async operation
-        await Task.Delay(100); // Simulate database delay
-        
-        // Demo credentials (in production, these would be hashed in database)
-        var users = new Dictionary<string, string>
+        var user = await GetUserByUsernameAsync(username);
+        if (user is null) return false;
+
+        var passwordHasher = new PasswordHasher<User>();
+        var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+
+        return result == PasswordVerificationResult.Success;
+    }
+
+    public async Task<bool> RegisterUserAsync(string username, string password, ICollection<Role> roles)
+    {
+        var existingUser = await GetUserByUsernameAsync(username);
+        if (existingUser is not null) return false;
+
+        var user = new User(username, password, roles);
+        _dbContext.Users.Add(user);
+
+        try
         {
-            { "admin", BCrypt.Net.BCrypt.HashPassword("password123") },
-            { "user", BCrypt.Net.BCrypt.HashPassword("mypassword") }
-        };
-        
-        if (users.ContainsKey(username))
-        {
-            return BCrypt.Net.BCrypt.Verify(password, users[username]);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
-        
-        return false;
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
+
+    public async Task<User?> GetUserByUsernameAsync(string username) 
+    {
+        var normalizedUsername = username.ToLower();
+        return await _dbContext.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Username.ToLower() == normalizedUsername);
     }
 }

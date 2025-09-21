@@ -1,1 +1,1 @@
-sudo systemctl start nginx && (sudo dotnet run --project /home/mikelis.kalme/iekava.lv/domain/api)
+sudo systemctl start nginx && sudo systemctl start postgresql && sudo systemctl enable postgresql && (sudo dotnet run --project /home/mikelis.kalme/iekava.lv/domain/api)

@@ -33,11 +33,11 @@ public class AuthService : IAuthService
             new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
         
-        // Add role claims
+        // Add scopes as claims
         var userRoles = GetUserRoles(username);
         foreach (var role in userRoles)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            claims.Add(new Claim("scope", role));
         }
         
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -55,19 +55,18 @@ public class AuthService : IAuthService
         return tokenString;
     }
 
-    private List<string> GetUserRoles(string username)
+    private List<string> GetUserScopes(string username)
     {
-        // In a real application, you'd get roles from your database
-        // For demo purposes, using hardcoded roles
-        var userRoles = new Dictionary<string, List<string>>
-        {
-            { "admin", new List<string> { "Admin", "User" } },
-            { "user", new List<string> { "User" } }
-        };
-        
-        return userRoles.ContainsKey(username.ToLower()) 
-            ? userRoles[username.ToLower()] 
-            : new List<string> { "User" }; // Default role
+        var user = _userService.GetUserByUsernameAsync(username).Result;
+        if (user is null) return new List<string>();
+
+        var scopes = user.Roles
+            .SelectMany(r => r.Scopes)
+            .Select(s => s.Name)
+            .Distinct()
+            .ToList();
+
+        return scopes;
     }
 
     public async Task<bool> ValidateUserCredentialsAsync(string username, string password)

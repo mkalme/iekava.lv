@@ -1,0 +1,6 @@
+# Debugging
+sudo dotnet build && sudo dotnet run
+
+# Migrating
+sudo env "PATH=$PATH" dotnet ef migrations add <MigratrionName>
+sudo env "PATH=$PATH" dotnet ef database update
