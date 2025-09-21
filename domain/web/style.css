@@ -11,17 +11,22 @@ html {
     background-repeat: no-repeat;
 }
 
-.login-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.login-container,
+.error-message,
+.success-message {
     background: rgba(20, 20, 20, 0.93);
     padding: 20px;
     border-radius: 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     width: 250px;
     text-align: center;
+}
+
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .login-container h2 {
@@ -64,4 +69,34 @@ html {
 
 .login-container button:active {
     background: #999;
+}
+
+.login-container button:disabled {
+    background: #333;
+    cursor: not-allowed;
+    color: #888;
+}
+
+.error-message {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    color: #ff6b6b;
+    margin-top: 10px;
+    border: 1px solid #ff4757;
+    display: none;
+    font-size: 14px;
+}
+
+.success-message {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    color: #5cb85c;
+    margin-top: 10px;
+    border: 1px solid #5cb85c;
+    display: none;
+    font-size: 14px;
 }

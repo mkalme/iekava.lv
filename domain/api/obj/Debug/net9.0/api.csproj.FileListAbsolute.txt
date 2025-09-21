@@ -62,3 +62,13 @@
 /home/mikelis.kalme/iekava.lv/domain/api/obj/Debug/net9.0/api.pdb
 /home/mikelis.kalme/iekava.lv/domain/api/obj/Debug/net9.0/api.genruntimeconfig.cache
 /home/mikelis.kalme/iekava.lv/domain/api/obj/Debug/net9.0/ref/api.dll
+/home/mikelis.kalme/iekava.lv/domain/api/obj/Debug/net9.0/api.sourcelink.json
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/BCrypt.Net-Next.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/home/mikelis.kalme/iekava.lv/domain/api/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
