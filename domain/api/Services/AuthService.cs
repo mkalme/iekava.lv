@@ -2,7 +2,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Reflection;
 using YourApp.Utilities;
 
 namespace YourApp.Services;
@@ -18,29 +17,9 @@ public class AuthService : IAuthService
         _userService = userService;
     }
 
-    /// <summary>
-    /// Gets the JWT secret key from secure configuration
-    /// </summary>
-    private byte[] GetJwtSecretKey()
-    {
-        var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        var jwtPath = Path.Combine(exeDir, "jwt.key");
-
-        if (File.Exists(jwtPath))
-        {
-            return File.ReadAllBytes(jwtPath);
-        }
-
-        var generatedKey = JwtSecretKeyGenerator.GenerateHmacSha256Key();
-        File.WriteAllBytes(jwtPath, generatedKey);
-
-        return generatedKey;
-    }
-
     public string GenerateJwtToken(string username, TimeSpan lifespan)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = GetJwtSecretKey();
         
         var now = DateTime.UtcNow;
         var expires = now.Add(lifespan);
@@ -67,7 +46,7 @@ public class AuthService : IAuthService
             Expires = expires,
             NotBefore = now,
             IssuedAt = now,
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = new SigningCredentials(JwtSecretKeyProvider.GetKey(), SecurityAlgorithms.HmacSha256Signature)
         };
         
         var token = tokenHandler.CreateToken(tokenDescriptor);

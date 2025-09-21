@@ -177,7 +177,7 @@ document.getElementById('loginBtn').addEventListener('click', async function () 
 
     try {
         // Construct the login endpoint URL
-        const loginEndpoint = `${API_BASE_URL}/auth/login`;
+        const loginEndpoint = `${API_BASE_URL}/api/auth/login`;
 
         // Attempt secure login
         const result = await secureLogin(username, password, loginEndpoint);

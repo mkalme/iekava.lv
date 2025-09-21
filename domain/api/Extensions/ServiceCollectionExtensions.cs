@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using YourApp.Services;
+using YourApp.Utilities;
 
 namespace YourApp.Extensions;
 
@@ -21,15 +22,13 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        var jwtKey = configuration["JWT:SecretKey"] ?? "your-super-secret-key-here-make-it-long-and-complex";
-        
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                    IssuerSigningKey = JwtSecretKeyProvider.GetKey(),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
