@@ -16,7 +16,7 @@ public class UserController(IUserService UserService) : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var success = await _userService.RegisterUserAsync(request.Username, request.Password, request.Roles);
+        var success = await UserService.RegisterUserAsync(request.Username, request.Password, request.Roles);
         if (!success) return Conflict(new { message = "User already exists or could not be created." });
 
         return Ok(new { message = "User registered successfully." });
@@ -28,7 +28,7 @@ public class UserController(IUserService UserService) : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var updated = await _userService.UpdateUserAsync(id, request.Username, request.Password);
+        var updated = await UserService.UpdateUserAsync(id, request.Username, request.Password, request.Roles);
         if (!updated) return NotFound(new { message = "User not found." });
 
         return Ok(new { message = "User updated successfully." });
@@ -38,7 +38,7 @@ public class UserController(IUserService UserService) : ControllerBase
     [Authorize(Policy = "Scope:user.delete")]
     public async Task<ActionResult> DeleteUser(Guid id)
     {
-        var deleted = await _userService.DeleteUserAsync(id);
+        var deleted = await UserService.DeleteUserAsync(id);
         if (!deleted) return NotFound(new { message = "User not found." });
 
         return Ok(new { message = "User deleted successfully." });

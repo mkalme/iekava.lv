@@ -8,7 +8,7 @@ public class ScopePolicyProvider : IAuthorizationPolicyProvider
 {
     private readonly DefaultAuthorizationPolicyProvider _fallbackPolicyProvider;
     private readonly IServiceProvider _serviceProvider;
-    private readonly Dictionary<string, AuthorizationPolicy> _cache = new();
+    private readonly Dictionary<string, AuthorizationPolicy> _cache = [];
 
     public ScopePolicyProvider(IOptions<AuthorizationOptions> options, IServiceProvider serviceProvider)
     {

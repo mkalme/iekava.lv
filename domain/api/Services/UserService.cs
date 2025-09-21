@@ -25,7 +25,7 @@ public class UserService(AppDbContext DbContext) : IUserService
         }
     }
 
-    public async Task<bool> UpdateUserAsync(Guid id, string? username, string? password)
+    public async Task<bool> UpdateUserAsync(Guid id, string? username, string? password, ICollection<Role>? roles)
     {
         var user = await DbContext.Users
             .Include(u => u.Roles)
@@ -38,11 +38,11 @@ public class UserService(AppDbContext DbContext) : IUserService
             if (existingUser is not null) return false;
         }
 
-        user.Update(username, password);
+        user.Update(username, password, roles);
 
         try
         {
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             return true;
         }
         catch (DbUpdateException)
@@ -53,14 +53,14 @@ public class UserService(AppDbContext DbContext) : IUserService
 
     public async Task<bool> DeleteUserAsync(Guid id)
     {
-        var user = await _dbContext.Users.FindAsync(id);
+        var user = await DbContext.Users.FindAsync(id);
         if (user is null) return false;
 
-        _dbContext.Users.Remove(user);
+        DbContext.Users.Remove(user);
 
         try
         {
-            await _dbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
             return true;
         }
         catch (DbUpdateException)

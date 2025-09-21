@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using YourApp.Services;
 using YourApp.Utilities;
@@ -11,8 +12,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        
-        // Register your services
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
         
@@ -33,21 +32,19 @@ public static class ServiceCollectionExtensions
                     ClockSkew = TimeSpan.Zero
                 };
                 
-                // Configure JWT Bearer to read from cookies
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
                     {
-                        // Check if token is in cookie first
                         var token = context.Request.Cookies["authToken"];
                         if (!string.IsNullOrEmpty(token))
                         {
                             context.Token = token;
                         }
-                        // If not in cookie, check Authorization header (for API clients like Postman)
-                        else if (context.Request.Headers.ContainsKey("Authorization"))
+
+                        else if (context.Request.Headers.TryGetValue("Authorization", out StringValues value))
                         {
-                            var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+                            var authHeader = value.FirstOrDefault();
                             if (authHeader?.StartsWith("Bearer ") == true)
                             {
                                 context.Token = authHeader.Substring("Bearer ".Length).Trim();
@@ -61,20 +58,19 @@ public static class ServiceCollectionExtensions
         return services;
     }
     
-    // Updated CORS to include credentials
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
     {
         services.AddCors(options =>
         {
             options.AddPolicy("SecurePolicy", policy =>
             {
-                policy.WithOrigins(
-                        "https://iekava.lv",           // Production frontend
-                        "http://localhost:5000"        // Local React/Vue dev server
-                    )
+                policy
+                    .WithOrigins(
+                        "https://iekava.lv",
+                        "http://localhost:5000")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials(); // REQUIRED for cookies
+                    .AllowCredentials();
             });
         });
         

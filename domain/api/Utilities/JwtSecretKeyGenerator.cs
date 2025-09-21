@@ -25,7 +25,6 @@ public class JwtSecretKeyGenerator
     /// <returns>Base64 encoded 256-bit key suitable for HMAC-SHA256</returns>
     public static byte[] GenerateHmacSha256Key()
     {
-        // HMAC-SHA256 recommends key size >= hash output size (32 bytes)
         return GenerateSecretKey(32);
     }
 }

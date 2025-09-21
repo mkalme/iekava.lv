@@ -5,15 +5,8 @@ using YourApp.Utilities;
 
 namespace YourApp.Services;
 
-public class AuthService : IAuthService
+public class AuthService(IUserService UserService) : IAuthService
 {
-    private readonly IUserService _userService;
-
-    public AuthService(IUserService userService)
-    {
-        _userService = userService;
-    }
-
     public string GenerateJwtToken(string username, TimeSpan lifespan)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -21,7 +14,6 @@ public class AuthService : IAuthService
         var now = DateTime.UtcNow;
         var expires = now.Add(lifespan);
         
-        // Create claims list
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, username),
@@ -29,10 +21,8 @@ public class AuthService : IAuthService
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
-        
-        // Add scopes as claims
-        var userRoles = GetUserScopes(username);
-        foreach (var role in userRoles)
+
+        foreach (var role in GetUserScopes(username))
         {
             claims.Add(new Claim("scope", role));
         }
@@ -54,8 +44,8 @@ public class AuthService : IAuthService
 
     private List<string> GetUserScopes(string username)
     {
-        var user = _userService.GetUserByUsernameAsync(username).Result;
-        if (user is null) return new List<string>();
+        var user = UserService.GetUserByUsernameAsync(username).Result;
+        if (user is null) return [];
 
         var scopes = user.Roles
             .SelectMany(r => r.Scopes)
@@ -68,6 +58,6 @@ public class AuthService : IAuthService
 
     public async Task<bool> ValidateUserCredentialsAsync(string username, string password)
     {
-        return await _userService.ValidateCredentialsAsync(username, password);
+        return await UserService.ValidateCredentialsAsync(username, password);
     }
 }

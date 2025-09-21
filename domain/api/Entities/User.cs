@@ -2,22 +2,24 @@ using Microsoft.AspNetCore.Identity;
 
 namespace YourApp.Entity;
 
-public class User
+public class User : Entity
 {
-    public Guid Id { get; set; }
     public string Username { get; set; }
     public string PasswordHash { get; set; }
     public ICollection<Role> Roles { get; set; } = [];
 
-    public User(){}
-
-    public User(string username, string password, ICollection<Role> roles) 
+    public User()
     {
-        Update(username, password);
-        Roles = roles;
+        Username = string.Empty;
+        PasswordHash = string.Empty;
     }
 
-    public void Update(string? username, string? password) 
+    public User(string username, string password, ICollection<Role> roles) : this()
+    {
+        Update(username, password, roles);
+    }
+
+    public void Update(string? username, string? password, ICollection<Role>? roles) 
     {
         if (!string.IsNullOrEmpty(username)) 
         {
@@ -27,6 +29,11 @@ public class User
         if (!string.IsNullOrEmpty(password)) 
         {
             PasswordHash = new PasswordHasher<User>().HashPassword(this, password);
+        }
+
+        if (roles is not null) 
+        {
+            Roles = roles;
         }
     }
 }

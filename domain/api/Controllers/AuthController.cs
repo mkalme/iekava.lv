@@ -19,14 +19,12 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        // Validate input
         if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
         {
             return BadRequest(new { error = "Invalid credentials", message = "Username and password are required" });
         }
         
         var isValidUser = await _authService.ValidateUserCredentialsAsync(request.Username, request.Password);
-        
         if (!isValidUser)
         {
             return Unauthorized(new { error = "Invalid credentials", message = "Username or password is incorrect" });
@@ -34,8 +32,6 @@ public class AuthController : ControllerBase
         
         var cookieAndTokenLifespan = TimeSpan.FromHours(1);
         var token = _authService.GenerateJwtToken(request.Username, cookieAndTokenLifespan);
-
-        // Set JWT as httpOnly cookie
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
