@@ -1,19 +1,16 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using YourApp.Utilities;
 
 namespace YourApp.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IConfiguration _configuration;
     private readonly IUserService _userService;
 
-    public AuthService(IConfiguration configuration, IUserService userService)
+    public AuthService(IUserService userService)
     {
-        _configuration = configuration;
         _userService = userService;
     }
 
@@ -34,7 +31,7 @@ public class AuthService : IAuthService
         };
         
         // Add scopes as claims
-        var userRoles = GetUserRoles(username);
+        var userRoles = GetUserScopes(username);
         foreach (var role in userRoles)
         {
             claims.Add(new Claim("scope", role));

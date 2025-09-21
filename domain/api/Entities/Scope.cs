@@ -1,7 +1,7 @@
 namespace YourApp.Entity;
 
-public class Scope : Entity
+public class Scope(string name) : Entity()
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public string Name { get; set; } = name;
+    public string? Description { get; set; }
 }

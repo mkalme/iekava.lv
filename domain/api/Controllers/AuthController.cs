@@ -73,12 +73,4 @@ public class AuthController : ControllerBase
         
         return Ok(new { message = "Logged out successfully" });
     }
-
-    [HttpGet("me")]
-    [Authorize]
-    public IActionResult GetCurrentUser()
-    {
-        var username = User?.Identity?.Name;
-        return Ok(new { username = username });
-    }
 }
