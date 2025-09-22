@@ -29,7 +29,7 @@ public class ScopePolicyProvider : IAuthorizationPolicyProvider
             using var scope = _serviceProvider.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var exists = await db.Scopes.AnyAsync(s => scopeNames.Contains(s.Name));
+            var exists = await db.Scopes.AnyAsync(s => scopeNames.Contains(s.Id));
             if (exists)
             {
                 var builder = new AuthorizationPolicyBuilder();

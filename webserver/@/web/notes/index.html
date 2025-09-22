@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Notes - iekava.lv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .notes-container {
+            background: rgba(20, 20, 20, 0.93);
+            padding: 30px;
+            border-radius: 0px;
+            width: 400px;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .notes-container h2 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: normal;
+        }
+
+        .user-info {
+            min-height: 35px;
+            max-height: 35px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: block;
+        }
+
+        .user-info .username {
+            font-size: 18px;
+            font-weight: bold;
+            color: #5cb85c;
+            margin-bottom: 3px;
+        }
+
+        .user-info .user-id {
+            font-size: 11px;
+            color: #888;
+            font-weight: normal;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 0px;
+            background: #222;
+            color: #fff;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .notes-textarea:focus {
+            outline: 2px solid #555;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .notes-container button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 0px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .save-btn {
+            background: #4CAF50;
+        }
+
+        .save-btn:hover {
+            background: #5CBF60;
+        }
+
+        .save-btn:disabled {
+            background: #2E5D30;
+            cursor: not-allowed;
+            color: #888;
+        }
+
+        .logout-btn {
+            background: #f44336;
+        }
+
+        .logout-btn:hover {
+            background: #f66356;
+        }
+
+        .logout-btn:disabled {
+            background: #7D2A26;
+            cursor: not-allowed;
+            color: #888;
+        }
+
+        .auto-save-indicator {
+            color: #5cb85c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Override the global message styles to make them full width within notes container */
+        .notes-container .error-message,
+        .notes-container .success-message {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="module" src="./notes/notes.js"></script>
+    <div class="notes-container">
+        <h2>My Notes</h2>
+        <div class="user-info" id="userInfo">
+            <div class="username" id="usernameDisplay"></div>
+            <div class="user-id" id="userIdDisplay"></div>
+        </div>
+        <textarea class="notes-textarea" id="notesText" placeholder="Write your notes here..."></textarea>
+        <div class="button-group">
+            <button class="save-btn" id="saveBtn">Save Notes</button>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+    </div>
+</body>
+
+</html>

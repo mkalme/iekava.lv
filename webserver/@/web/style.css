@@ -5,28 +5,38 @@ html {
     height: 100vh;
     overflow: hidden;
     font-family: Arial, sans-serif;
-    background-image: url('./background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(-45deg, #3c3c3c, #4a4a4a, #2a2a2a, #5a5a5a);
+    background-size: 400% 400%;
+    animation: gradientShift 30s ease infinite;
 }
 
-.login-container,
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.login-container {
+    background: rgba(20, 20, 20, 0.93);
+    padding: 20px;
+    border-radius: 0px;
+    width: 250px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
 .error-message,
 .success-message {
     background: rgba(20, 20, 20, 0.93);
     padding: 20px;
     border-radius: 0px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-    width: 250px;
+    width: 100%;
     text-align: center;
-}
-
-.login-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    box-sizing: border-box;
 }
 
 .login-container h2 {
@@ -87,6 +97,8 @@ html {
     border: 1px solid #ff4757;
     display: none;
     font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .success-message {
@@ -99,4 +111,6 @@ html {
     border: 1px solid #5cb85c;
     display: none;
     font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

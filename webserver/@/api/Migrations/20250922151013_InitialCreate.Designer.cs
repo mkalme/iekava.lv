@@ -12,7 +12,7 @@ using YourApp;
 namespace api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250921224820_InitialCreate")]
+    [Migration("20250922151013_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace api.Migrations
 
             modelBuilder.Entity("RoleScope", b =>
                 {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
 
-                    b.Property<Guid>("ScopesId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ScopesId")
+                        .HasColumnType("text");
 
                     b.HasKey("RoleId", "ScopesId");
 
@@ -42,8 +42,8 @@ namespace api.Migrations
 
             modelBuilder.Entity("RoleUser", b =>
                 {
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("RolesId")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -76,15 +76,10 @@ namespace api.Migrations
 
             modelBuilder.Entity("YourApp.Entity.Role", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -94,15 +89,10 @@ namespace api.Migrations
 
             modelBuilder.Entity("YourApp.Entity.Scope", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

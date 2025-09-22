@@ -12,7 +12,7 @@ psql -h localhost -p 5432 -d iekava -U admin;
 # Database: list users with their scopes
 SELECT
     "u"."Username" AS "username",
-    "s"."Name" AS "scope_name"
+    "s"."Id" AS "scope_name"
 FROM
     "Users" AS "u"
 JOIN
@@ -25,12 +25,12 @@ JOIN
     "Scopes" AS "s" ON "rs"."ScopesId" = "s"."Id"
 ORDER BY
     "u"."Username",
-    "s"."Name";
+    "s"."Id";
 
 # Database: list roles with their scopes
 SELECT
-    "r"."Name" AS "role_name",
-    "s"."Name" AS "scope_name"
+    "r"."Id" AS "role_name",
+    "s"."Id" AS "scope_name"
 FROM
     "Roles" AS "r"
 JOIN
@@ -38,13 +38,13 @@ JOIN
 JOIN
     "Scopes" AS "s" ON "rs"."ScopesId" = "s"."Id"
 ORDER BY
-    "r"."Name",
-    "s"."Name";
+    "r"."Id",
+    "s"."Id";
 
 # Database: list users with their roles
 SELECT
     "u"."Username" AS "username",
-    "r"."Name" AS "role_name"
+    "r"."Id" AS "role_name"
 FROM
     "Users" AS "u"
 JOIN
@@ -53,7 +53,7 @@ JOIN
     "Roles" AS "r" ON "ur"."RolesId" = "r"."Id"
 ORDER BY
     "u"."Username",
-    "r"."Name";
+    "r"."Id";
 
 # Database: list users with a given scope
 SELECT
@@ -69,6 +69,6 @@ JOIN
 JOIN
     "Scopes" AS "s" ON "rs"."ScopesId" = "s"."Id"
 WHERE
-    "s"."Name" = '<ScopeName>'
+    "s"."Id" = '<ScopeName>'
 ORDER BY
     "u"."Username";

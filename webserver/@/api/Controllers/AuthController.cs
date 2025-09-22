@@ -25,13 +25,13 @@ public class AuthController : ControllerBase
         {
             return BadRequest(new { error = "Invalid credentials", message = "Username and password are required" });
         }
-        
+
         var isValidUser = await _authService.ValidateUserCredentialsAsync(request.Username, request.Password);
         if (!isValidUser)
         {
             return Unauthorized(new { error = "Invalid credentials", message = "Username or password is incorrect" });
         }
-        
+
         var cookieAndTokenLifespan = TimeSpan.FromHours(1);
         var token = await _authService.GenerateJwtTokenAsync(request.Username, cookieAndTokenLifespan);
         var cookieOptions = new CookieOptions
@@ -44,17 +44,13 @@ public class AuthController : ControllerBase
         };
 
         Response.Cookies.Append("authToken", token, cookieOptions);
-        
-        var user = await _userService.GetUserByUsernameAsync(request.Username);
-        
+
         var response = new LoginResponse
         {
-            Id = user?.Id ?? Guid.Empty,
             Message = "Login successful",
-            Username = request.Username,
             ExpiresIn = Convert.ToInt32(cookieAndTokenLifespan.TotalSeconds)
         };
-        
+
         return Ok(response);
     }
 
@@ -69,9 +65,23 @@ public class AuthController : ControllerBase
             Expires = DateTimeOffset.UtcNow.AddDays(-1),
             Path = "/"
         };
-        
+
         Response.Cookies.Append("authToken", "", cookieOptions);
-        
+
         return Ok(new { message = "Logged out successfully" });
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> Me()
+    {
+        var user = await _userService.GetCurrentAuthenticatedUserAsync(User);
+        if (user is null) return Unauthorized(new { error = "User not found or unauthorized" });
+
+        return Ok(new 
+        { 
+            id = user.Id,
+            username = user.Username
+        });
     }
 }

@@ -186,12 +186,10 @@ document.getElementById('loginBtn').addEventListener('click', async function () 
         showSuccess('Login successful!');
         console.log('Login successful:', result);
 
-        // Here you would typically:
-        // - Store the authentication token
-        // - Redirect to the dashboard
-        // - Update the UI state
-        // localStorage.setItem('authToken', result.token); // Example
-        // window.location.href = '/dashboard'; // Example
+        // Redirect to notes page after successful login
+        setTimeout(() => {
+            window.location.href = '/notes';
+        }, 1000);
 
     } catch (error) {
         // Handle login errors

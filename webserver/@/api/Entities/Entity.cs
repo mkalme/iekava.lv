@@ -1,16 +1,16 @@
 namespace YourApp.Entity;
 
-public class Entity
+public class Entity<TID>
 {
-    public Guid Id { get; set; }
+    public TID Id { get; set; }
 
-    public Entity() 
-    {
-        Id = Guid.NewGuid();
-    }
-
-    public Entity(Guid id)
+    public Entity(TID id)
     {
         Id = id;
     }
+}
+
+public class Entity : Entity<Guid>
+{
+    public Entity() : base(Guid.NewGuid()) { }
 }

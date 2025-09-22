@@ -21,9 +21,9 @@ public class AuthService(IUserService UserService) : IAuthService
 
         var claims = new List<Claim>
         {
-            new Claim("sub", user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+            new("sub", user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
 
         foreach (var role in await GetUserScopes(username))
@@ -52,7 +52,7 @@ public class AuthService(IUserService UserService) : IAuthService
         if (scopes is null) return [];
 
         var scopeNames = scopes
-            .Select(s => s.Name)
+            .Select(s => s.Id)
             .Distinct()
             .ToList();
 

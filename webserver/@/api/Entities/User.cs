@@ -19,21 +19,25 @@ public class User : Entity
         Update(username, password, roles);
     }
 
-    public void Update(string? username, string? password, ICollection<Role>? roles) 
+    public void Update(string? username, string? password, ICollection<Role> roles)
     {
-        if (!string.IsNullOrEmpty(username)) 
+        if (!string.IsNullOrEmpty(username))
         {
             Username = username;
         }
 
-        if (!string.IsNullOrEmpty(password)) 
+        if (!string.IsNullOrEmpty(password))
         {
             PasswordHash = new PasswordHasher<User>().HashPassword(this, password);
         }
 
-        if (roles is not null) 
+        if (roles is not null)
         {
-            Roles = roles;
+            Roles.Clear();
+            foreach (var role in roles)
+            {
+                Roles.Add(role);
+            }
         }
     }
 }

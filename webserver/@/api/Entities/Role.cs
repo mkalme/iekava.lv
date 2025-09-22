@@ -1,8 +1,7 @@
 namespace YourApp.Entity;
 
-public class Role(string name) : Entity
+public class Role(string id) : Entity<string>(id)
 {
-    public string Name { get; set; } = name;
     public string? Description { get; set; }
     public ICollection<Scope> Scopes { get; set; } = [];
 }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YourApp.Entity;
@@ -6,12 +7,16 @@ namespace YourApp.Services;
 
 public class UserService(AppDbContext DbContext) : IUserService
 {
-    public async Task<bool> RegisterUserAsync(string username, string password, ICollection<Role> roles)
+    public async Task<bool> RegisterUserAsync(string username, string password, ICollection<string> roles)
     {
         var existingUser = await GetUserByUsernameAsync(username);
         if (existingUser is not null) return false;
 
-        var user = new User(username, password, roles);
+        var existingRoles = await DbContext.Roles
+            .Where(x => roles.Contains(x.Id))
+            .ToListAsync();
+
+        var user = new User(username, password, existingRoles);
         DbContext.Users.Add(user);
 
         try
@@ -25,20 +30,27 @@ public class UserService(AppDbContext DbContext) : IUserService
         }
     }
 
-    public async Task<bool> UpdateUserAsync(Guid id, string? username, string? password, ICollection<Role>? roles)
+    public async Task<bool> EditUserAsync(User user, string? username, string? password, ICollection<string>? roles)
     {
-        var user = await DbContext.Users
-            .Include(u => u.Roles)
-            .FirstOrDefaultAsync(u => u.Id == id);
-        if (user is null) return false;
-
         if (!string.IsNullOrWhiteSpace(username))
         {
             var existingUser = await GetUserByUsernameAsync(username);
             if (existingUser is not null) return false;
         }
 
-        user.Update(username, password, roles);
+        ICollection<Role> existingRoles;
+        if (roles != null && roles.Any())
+        {
+            existingRoles = await DbContext.Roles
+                .Where(x => roles.Contains(x.Id))
+                .ToListAsync();
+        }
+        else
+        {
+            existingRoles = user.Roles;
+        }
+
+        user.Update(username, password, existingRoles);
 
         try
         {
@@ -51,11 +63,8 @@ public class UserService(AppDbContext DbContext) : IUserService
         }
     }
 
-    public async Task<bool> DeleteUserAsync(Guid id)
+    public async Task<bool> DeleteUserAsync(User user)
     {
-        var user = await DbContext.Users.FindAsync(id);
-        if (user is null) return false;
-
         DbContext.Users.Remove(user);
 
         try
@@ -84,8 +93,27 @@ public class UserService(AppDbContext DbContext) : IUserService
     {
         var normalizedUsername = username.ToLower();
         return await DbContext.Users
-            .AsNoTracking()
+            .Include(x => x.Roles)
             .FirstOrDefaultAsync(u => u.Username.ToLower() == normalizedUsername);
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid id)
+    {
+        return await DbContext.Users
+            .Include(x => x.Roles)
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<User?> GetCurrentAuthenticatedUserAsync(ClaimsPrincipal principal)
+    {
+        var sub = principal.FindFirstValue(ClaimTypes.NameIdentifier)
+                  ?? principal.FindFirstValue("sub");
+        if (sub is null) return null;
+        if (!Guid.TryParse(sub, out var id)) return null;
+
+        return await DbContext.Users
+            .Include(x => x.Roles)
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<ICollection<Scope>?> GetUserScopesAsync(string username)
@@ -94,7 +122,6 @@ public class UserService(AppDbContext DbContext) : IUserService
         var user = await DbContext.Users
             .Include(u => u.Roles)
                 .ThenInclude(r => r.Scopes)
-            .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Username.ToLower() == normalizedUsername);
         if (user is null) return null;
 
