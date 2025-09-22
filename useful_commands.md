@@ -1,5 +1,5 @@
 # Debugging
-sudo dotnet build && sudo dotnet run
+sudo dotnet build /home/mikelis.kalme/iekava.lv/webserver/@/api && sudo dotnet run --project /home/mikelis.kalme/iekava.lv/webserver/@/api
 sudo pkill dotnet
 
 # Migrating
@@ -7,7 +7,7 @@ sudo env "PATH=$PATH" dotnet ef migrations add <MigratrionName>
 sudo env "PATH=$PATH" dotnet ef database update
 
 # Database
-psql -h localhost -p 5432 -d iekava -U admin
+psql -h localhost -p 5432 -d iekava -U admin;
 
 # Database: list users with their scopes
 SELECT

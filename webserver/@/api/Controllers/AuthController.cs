@@ -42,7 +42,7 @@ public class AuthController : ControllerBase
             Expires = DateTimeOffset.UtcNow.Add(cookieAndTokenLifespan),
             Path = "/"
         };
-        
+
         Response.Cookies.Append("authToken", token, cookieOptions);
         
         var user = await _userService.GetUserByUsernameAsync(request.Username);

@@ -13,11 +13,15 @@ public class AuthService(IUserService UserService) : IAuthService
         
         var now = DateTime.UtcNow;
         var expires = now.Add(lifespan);
-        
+        var user = await UserService.GetUserByUsernameAsync(username);
+        if (user is null)
+        {
+            throw new ArgumentException("User not found", nameof(username));
+        }
+
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, username),
-            new Claim("username", username),
+            new Claim("sub", user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
