@@ -9,7 +9,7 @@ sudo env "PATH=$PATH" dotnet ef database update
 # Database
 psql -h localhost -p 5432 -d iekava -U admin
 
-# List users with their scopes
+# Database: list users with their scopes
 SELECT
     "u"."Username" AS "username",
     "s"."Name" AS "scope_name"
@@ -27,7 +27,7 @@ ORDER BY
     "u"."Username",
     "s"."Name";
 
-# List roles with their scopes
+# Database: list roles with their scopes
 SELECT
     "r"."Name" AS "role_name",
     "s"."Name" AS "scope_name"
@@ -41,7 +41,7 @@ ORDER BY
     "r"."Name",
     "s"."Name";
 
-# List users with their roles
+# Database: list users with their roles
 SELECT
     "u"."Username" AS "username",
     "r"."Name" AS "role_name"
@@ -55,7 +55,7 @@ ORDER BY
     "u"."Username",
     "r"."Name";
 
-# List users with a given scope
+# Database: list users with a given scope
 SELECT
     "u"."Username" AS "username"
 FROM
@@ -69,6 +69,6 @@ JOIN
 JOIN
     "Scopes" AS "s" ON "rs"."ScopesId" = "s"."Id"
 WHERE
-    "s"."Name" = 'SCOPE_NAME'
+    "s"."Name" = '<ScopeName>'
 ORDER BY
     "u"."Username";
