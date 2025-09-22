@@ -1,5 +1,6 @@
 # Debugging
 sudo dotnet build && sudo dotnet run
+sudo pkill dotnet
 
 # Migrating
 sudo env "PATH=$PATH" dotnet ef migrations add <MigratrionName>
@@ -7,3 +8,20 @@ sudo env "PATH=$PATH" dotnet ef database update
 
 # Database
 psql -h localhost -p 5432 -d iekava -U admin
+
+SELECT
+    "u"."Username" AS "username",
+    "s"."Name" AS "scope_name"
+FROM
+    "Users" AS "u"
+JOIN
+    "UserRoles" AS "ur" ON "u"."Id" = "ur"."UserId"
+JOIN
+    "Roles" AS "r" ON "ur"."RolesId" = "r"."Id"
+JOIN
+    "RoleScopes" AS "rs" ON "r"."Id" = "rs"."RoleId"
+JOIN
+    "Scopes" AS "s" ON "rs"."ScopesId" = "s"."Id"
+ORDER BY
+    "u"."Username",
+    "s"."Name";
