@@ -29,6 +29,7 @@ public static class ServiceCollectionExtensions
                     IssuerSigningKey = JwtSecretKeyProvider.GetKey(),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
                 
