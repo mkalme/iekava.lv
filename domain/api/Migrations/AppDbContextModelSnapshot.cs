@@ -22,6 +22,36 @@ namespace api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("RoleScope", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ScopesId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RoleId", "ScopesId");
+
+                    b.HasIndex("ScopesId");
+
+                    b.ToTable("RoleScopes", (string)null);
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<Guid>("RolesId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RolesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoles", (string)null);
+                });
+
             modelBuilder.Entity("YourApp.Entity.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -54,12 +84,7 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -77,12 +102,7 @@ namespace api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("RoleId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Scopes");
                 });
@@ -106,6 +126,36 @@ namespace api.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("RoleScope", b =>
+                {
+                    b.HasOne("YourApp.Entity.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourApp.Entity.Scope", null)
+                        .WithMany()
+                        .HasForeignKey("ScopesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("YourApp.Entity.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YourApp.Entity.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("YourApp.Entity.Message", b =>
                 {
                     b.HasOne("YourApp.Entity.User", "Author")
@@ -115,30 +165,6 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("YourApp.Entity.Role", b =>
-                {
-                    b.HasOne("YourApp.Entity.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("YourApp.Entity.Scope", b =>
-                {
-                    b.HasOne("YourApp.Entity.Role", null)
-                        .WithMany("Scopes")
-                        .HasForeignKey("RoleId");
-                });
-
-            modelBuilder.Entity("YourApp.Entity.Role", b =>
-                {
-                    b.Navigation("Scopes");
-                });
-
-            modelBuilder.Entity("YourApp.Entity.User", b =>
-                {
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

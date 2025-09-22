@@ -11,4 +11,19 @@ public class AppDbContext : DbContext
     public DbSet<Scope> Scopes { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Role>()
+            .HasMany(r => r.Scopes)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("RoleScopes"));
+
+        modelBuilder.Entity<User>()
+            .HasMany(r => r.Roles)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("UserRoles"));
+    }
 }

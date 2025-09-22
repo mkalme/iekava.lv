@@ -7,7 +7,7 @@ namespace YourApp.Services;
 
 public class AuthService(IUserService UserService) : IAuthService
 {
-    public string GenerateJwtToken(string username, TimeSpan lifespan)
+    public async Task<string> GenerateJwtTokenAsync(string username, TimeSpan lifespan)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         
@@ -22,7 +22,7 @@ public class AuthService(IUserService UserService) : IAuthService
             new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
 
-        foreach (var role in GetUserScopes(username))
+        foreach (var role in await GetUserScopes(username))
         {
             claims.Add(new Claim("scope", role));
         }
@@ -42,18 +42,17 @@ public class AuthService(IUserService UserService) : IAuthService
         return tokenString;
     }
 
-    private List<string> GetUserScopes(string username)
+    private async Task<List<string>> GetUserScopes(string username)
     {
-        var user = UserService.GetUserByUsernameAsync(username).Result;
-        if (user is null) return [];
+        var scopes = await UserService.GetUserScopesAsync(username);
+        if (scopes is null) return [];
 
-        var scopes = user.Roles
-            .SelectMany(r => r.Scopes)
+        var scopeNames = scopes
             .Select(s => s.Name)
             .Distinct()
             .ToList();
 
-        return scopes;
+        return scopeNames;
     }
 
     public async Task<bool> ValidateUserCredentialsAsync(string username, string password)

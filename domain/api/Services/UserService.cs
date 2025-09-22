@@ -87,4 +87,20 @@ public class UserService(AppDbContext DbContext) : IUserService
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Username.ToLower() == normalizedUsername);
     }
+
+    public async Task<ICollection<Scope>?> GetUserScopesAsync(string username)
+    {
+        var normalizedUsername = username.ToLower();
+        var user = await DbContext.Users
+            .Include(u => u.Roles)
+                .ThenInclude(r => r.Scopes)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Username.ToLower() == normalizedUsername);
+        if (user is null) return null;
+
+        var scopes = user.Roles
+            .SelectMany(r => r.Scopes).ToList();
+
+        return scopes;
+    }
 }

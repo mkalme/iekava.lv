@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using YourApp;
 using YourApp.Extensions;
 using YourApp.Utilities;
+using YourApp.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>

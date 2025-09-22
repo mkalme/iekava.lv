@@ -22,18 +22,25 @@ public class ScopePolicyProvider : IAuthorizationPolicyProvider
 
         if (policyName.StartsWith("Scope:"))
         {
-            var scopeName = policyName.Substring("Scope:".Length);
-
+            var scopeNames = policyName.Substring("Scope:".Length)
+                .Split(';')
+                .Select(x => x.Trim().ToLower())
+                .ToList();
             using var scope = _serviceProvider.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var exists = await db.Scopes.AnyAsync(s => s.Name == scopeName);
 
+            var exists = await db.Scopes.AnyAsync(s => scopeNames.Contains(s.Name));
             if (exists)
             {
-                policy = new AuthorizationPolicyBuilder()
-                    .RequireClaim("scope", scopeName)
-                    .Build();
+                var builder = new AuthorizationPolicyBuilder();
+                builder.RequireAssertion(context =>
+                    context.User.Claims
+                        .Where(c => c.Type == "scope")
+                        .Select(c => c.Value.ToLower())
+                        .Any(c => scopeNames.Contains(c))
+                );
 
+                policy = builder.Build();
                 _cache[policyName] = policy;
                 return policy;
             }

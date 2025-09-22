@@ -10,10 +10,12 @@ namespace YourApp.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly IUserService _userService;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IUserService userService)
     {
         _authService = authService;
+        _userService = userService;
     }
 
     [HttpPost("login")]
@@ -31,7 +33,7 @@ public class AuthController : ControllerBase
         }
         
         var cookieAndTokenLifespan = TimeSpan.FromHours(1);
-        var token = _authService.GenerateJwtToken(request.Username, cookieAndTokenLifespan);
+        var token = await _authService.GenerateJwtTokenAsync(request.Username, cookieAndTokenLifespan);
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
@@ -43,8 +45,11 @@ public class AuthController : ControllerBase
         
         Response.Cookies.Append("authToken", token, cookieOptions);
         
+        var user = await _userService.GetUserByUsernameAsync(request.Username);
+        
         var response = new LoginResponse
         {
+            Id = user?.Id ?? Guid.Empty,
             Message = "Login successful",
             Username = request.Username,
             ExpiresIn = Convert.ToInt32(cookieAndTokenLifespan.TotalSeconds)
