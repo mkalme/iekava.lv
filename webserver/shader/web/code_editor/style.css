@@ -1,0 +1,84 @@
+.cm-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.CodeMirror {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.CodeMirror-scroll {
+    flex: 1;
+    overflow: auto;
+}
+
+.code-controls {
+    padding: 6px 10px;
+    background: #1b1b1f;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.code-controls label {
+    font-size: 13px;
+}
+
+select {
+    background: #2a2a2f;
+    color: white;
+    border: 1px solid #444;
+    padding: 6px 10px;
+    border-radius: 0px;
+}
+
+button:hover,
+select:hover {
+    background: #333;
+}
+
+@media (max-width: 800px) {
+    .code-controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+        padding: 4px 6px;
+    }
+
+    .code-controls label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex: 0 0 auto;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .code-controls select {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: 40vw;
+        padding: 2px 4px;
+        font-size: 12px;
+    }
+
+    .cm-container {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+
+    .CodeMirror {
+        height: 100% !important;
+        overflow: auto !important;
+    }
+}

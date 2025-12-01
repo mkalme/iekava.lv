@@ -1,0 +1,17 @@
+.shader-console {
+    flex: 1;
+    padding: 8px;
+    background: #1b1b1f;
+    color: #ff6c6b;
+    font-family: monospace;
+    font-size: 13px;
+    overflow-y: auto;
+}
+
+@media (max-width: 800px) {
+    .shader-console {
+        height: 50vh !important;
+        min-height: 50vh !important;
+        max-height: 50vh !important;
+    }
+}

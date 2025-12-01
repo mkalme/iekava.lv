@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Shaders iekava</title>
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="code_editor/style.css">
+    <link rel="stylesheet" href="console/style.css">
+    <link rel="stylesheet" href="webgl_canvas/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="tab-header">
+                <span class="shader-label">Shaders iekava</span>
+                <div class="tabs-right">
+                    <button class="tab-btn active" data-tab="codeTab">Code</button>
+                    <button class="tab-btn" data-tab="consoleTab">
+                        Console
+                        <span class="tab-badge" id="consoleBadge"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="codeTab" class="tab-content active">
+                <div class="code-controls">
+                    <label>Preset:
+                        <select id="shaderPreset"></select>
+                    </label>
+                    <label>Theme:
+                        <select id="themeSelector"></select>
+                    </label>
+                </div>
+                <div class="cm-container">
+                    <textarea id="glsl"></textarea>
+                </div>
+            </div>
+
+            <div id="consoleTab" class="tab-content">
+                <div id="shaderConsole" class="shader-console"></div>
+            </div>
+        </div>
+
+        <canvas id="glslCanvas" class="glsl-preview"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/lib/codemirror.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/mode/clike/clike.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.13/addon/hint/show-hint.js"></script>
+    <script src="script.js"></script>
+    <script src="code_editor/script.js"></script>
+    <script src="webgl_canvas/script.js"></script>
+</body>
+
+</html>

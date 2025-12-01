@@ -1,3 +1,4 @@
-if ngx.var.host == "www.iekava.lv" then
-    return ngx.redirect("https://iekava.lv" .. ngx.var.request_uri, 301)
+if ngx.var.host:match("^www%.") then
+    local domain = ngx.var.host:gsub("^www%.", "")
+    return ngx.redirect("https://" .. domain .. ngx.var.request_uri, 301)
 end

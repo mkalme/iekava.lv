@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Training Plan — Inputs & Results</title>
+  <style>
+    :root{--bg:#fbfbfb;--card:#fff;--muted:#6b7280;--border:#e5e7eb;--labelw:160px;--primary:#3b82f6;--danger:#ef4444}
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; background:var(--bg);color:#111}
+    .wrap{display:flex;min-height:100vh;align-items:flex-start;justify-content:flex-start;padding:28px}
+    .panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;box-shadow:0 1px 2px rgba(0,0,0,0.03)}
+    .left{width:380px}
+    h1{font-size:16px;margin:0 0 12px;font-weight:600}
+    form{display:flex;flex-direction:column;gap:10px}
+    fieldset{border:1px solid var(--border);padding:10px;border-radius:6px;margin:0}
+    legend{font-size:13px;padding:0 6px;color:var(--muted)}
+    .row{display:flex;align-items:center;gap:10px;padding:6px 4px}
+    label{display:inline-block;width:var(--labelw);font-size:13px;color:var(--muted)}
+    input[type="number"], input[type="text"]{flex:1;min-width:0;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+    .suffix{white-space:nowrap;color:var(--muted);font-size:13px;margin-left:8px}
+    .small{font-size:12px;color:var(--muted);margin-top:4px}
+    .right{flex:1;margin-left:18px;display:flex;flex-direction:column;gap:18px;align-items:flex-start;justify-content:flex-start}
+    .results, .saved-plans{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:18px;width:320px;box-shadow:0 1px 2px rgba(0,0,0,0.03)}
+    .results h2, .saved-plans h2{font-size:15px;margin-top:0;margin-bottom:10px;font-weight:600}
+    .res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)}
+    .res-label{font-size:13px;color:var(--muted)}
+    .res-value{font-size:13px;font-weight:500}
+    .save-section{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+    .save-row{display:flex;gap:8px;margin-bottom:8px}
+    .save-row input{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px}
+    .btn{padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:13px;cursor:pointer;background:var(--card);transition:all 0.2s}
+    .btn:hover{background:#f3f4f6}
+    .btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
+    .btn-primary:hover{background:#2563eb}
+    .btn-danger{background:var(--danger);color:white;border-color:var(--danger)}
+    .btn-danger:hover{background:#dc2626}
+    .plan-item{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:6px;margin-bottom:8px;transition:all 0.2s;cursor:pointer}
+    .plan-item:hover{background:#f9fafb}
+    .plan-item.active{background:#eff6ff;border-color:var(--primary)}
+    .plan-name{flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px}
+    .plan-name-input{flex:1;font-size:13px;padding:4px 6px;border:1px solid var(--primary);border-radius:4px}
+    .plan-actions{display:flex;gap:4px}
+    .btn-small{padding:6px;width:28px;height:28px;font-size:12px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:var(--card);display:inline-flex;align-items:center;justify-content:center}
+    .btn-small:hover{background:#f3f4f6}
+    .btn-small:disabled{opacity:0.3;cursor:not-allowed}
+    .btn-small:disabled:hover{background:var(--card)}
+    .empty-state{text-align:center;padding:20px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel left">
+      <h1 id="pageTitle">Training Plan Inputs</h1>
+      <form id="inputsForm" novalidate>
+        <fieldset>
+          <legend>Training Plan</legend>
+          <div class="row">
+            <label for="mesocycles">Number of Mesocycles</label>
+            <input id="mesocycles" name="mesocycles" type="number" min="1" step="1" value="3">
+          </div>
+          <div class="row">
+            <label for="weeks_per_mesocycle">Weeks per Mesocycle</label>
+            <input id="weeks_per_mesocycle" name="weeks_per_mesocycle" type="number" min="1" step="1" value="4">
+          </div>
+          <div class="row">
+            <label for="deload_weeks">Deload Weeks per Mesocycle</label>
+            <input id="deload_weeks" name="deload_weeks" type="number" min="0" step="1" value="0">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Daily Calorie Surplus</legend>
+          <div class="row">
+            <label for="bulking_kcal">Bulking Weeks (kcal/day)</label>
+            <input id="bulking_kcal" name="bulking_kcal" type="number" min="0" step="25" value="300">
+          </div>
+          <div class="row">
+            <label for="deload_kcal">Deload Weeks (kcal/day)</label>
+            <input id="deload_kcal" name="deload_kcal" type="number" min="0" step="25" value="150">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Metabolic Costs</legend>
+          <div class="row">
+            <label for="muscle_ratio">Muscle Gain Ratio (% of total mass)</label>
+            <input id="muscle_ratio" name="muscle_ratio" type="number" min="0" max="100" step="0.1" value="80">
+            <span class="suffix">%</span>
+          </div>
+          <div class="row">
+            <label for="cost_per_kg_muscle">Metabolic Cost per kg of Muscle (kcal)</label>
+            <input id="cost_per_kg_muscle" name="cost_per_kg_muscle" type="number" min="0" step="10" value="2200">
+          </div>
+          <div class="row">
+            <label for="cost_per_kg_fat">Metabolic Cost per kg of Fat (kcal)</label>
+            <input id="cost_per_kg_fat" name="cost_per_kg_fat" type="number" min="0" step="10" value="3700">
+          </div>
+        </fieldset>
+
+        <div class="small note">Results update automatically when inputs change.</div>
+      </form>
+    </div>
+
+    <div class="right">
+      <div class="results">
+        <h2>Results</h2>
+        <div class="res-row"><div class="res-label">Total Duration (Weeks)</div><div class="res-value" id="total_weeks">—</div></div>
+        <div class="res-row"><div class="res-label">Total Surplus Calories</div><div class="res-value" id="total_calories">—</div></div>
+        <div class="res-row"><div class="res-label">Muscle Gained</div><div class="res-value" id="muscle_gained">—</div></div>
+        <div class="res-row"><div class="res-label">Fat Gained</div><div class="res-value" id="fat_gained">—</div></div>
+        <div class="res-row"><div class="res-label">Total Weight Gained</div><div class="res-value" id="total_weight">—</div></div>
+        <div class="res-row"><div class="res-label">Weekly Average (Calories)</div><div class="res-value" id="weekly_avg">—</div></div>
+        
+      </div>
+
+      <div class="saved-plans">
+        <h2>Saved Plans</h2>
+        <div class="save-section" style="margin-top:0;padding-top:0;border-top:none;margin-bottom:12px">
+          <div class="save-row">
+            <input type="text" id="planName" placeholder="Enter plan name...">
+            <button type="button" class="btn btn-primary" onclick="savePlan()">Save</button>
+          </div>
+        </div>
+        <div id="plansList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentPlanId = null;
+    let renamingPlanId = null;
+
+    function calculate() {
+      const mesocycles = parseInt(document.getElementById('mesocycles').value) || 0;
+      const weeksPerMeso = parseInt(document.getElementById('weeks_per_mesocycle').value) || 0;
+      const deloadWeeks = parseInt(document.getElementById('deload_weeks').value) || 0;
+      const bulkingKcal = parseFloat(document.getElementById('bulking_kcal').value) || 0;
+      const deloadKcal = parseFloat(document.getElementById('deload_kcal').value) || 0;
+      const muscleRatio = parseFloat(document.getElementById('muscle_ratio').value) || 0;
+      const calPerKgMuscle = parseFloat(document.getElementById('cost_per_kg_muscle').value) || 1;
+      const calPerKgFat = parseFloat(document.getElementById('cost_per_kg_fat').value) || 1;
+
+      const bulkWeeks = Math.max(0, weeksPerMeso - deloadWeeks);
+      const totalWeeks = mesocycles * weeksPerMeso;
+
+      let totalCalories = 0, totalMuscle = 0, totalFat = 0;
+
+      for (let i = 0; i < mesocycles; i++) {
+        const mesoCalories = (bulkWeeks * 7 * bulkingKcal) + (deloadWeeks * 7 * deloadKcal);
+        const gains = calculateGains(mesoCalories, muscleRatio, calPerKgMuscle, calPerKgFat);
+        totalCalories += mesoCalories;
+        totalMuscle += gains.muscle;
+        totalFat += gains.fat;
+      }
+
+      const totalWeight = totalMuscle + totalFat;
+      const weeklyAvg = totalWeeks > 0 ? totalCalories / totalWeeks : 0;
+
+      document.getElementById('total_weeks').textContent = totalWeeks;
+      document.getElementById('total_calories').textContent = formatNumber(totalCalories) + ' kcal';
+      document.getElementById('muscle_gained').textContent = totalMuscle.toFixed(2) + ' kg';
+      document.getElementById('fat_gained').textContent = totalFat.toFixed(2) + ' kg';
+      document.getElementById('total_weight').textContent = totalWeight.toFixed(2) + ' kg';
+      document.getElementById('weekly_avg').textContent = formatNumber(Math.round(weeklyAvg)) + ' kcal/week';
+    }
+
+    function calculateGains(calories, muscleRatioPercent, calPerKgMuscle, calPerKgFat) {
+      const musclePercentage = muscleRatioPercent / 100;
+      const fatPercentage = 1 - musclePercentage;
+
+      let muscleGained, fatGained;
+
+      if (fatPercentage === 0) {
+        muscleGained = calories / calPerKgMuscle;
+        fatGained = 0;
+      } else if (musclePercentage === 0) {
+        muscleGained = 0;
+        fatGained = calories / calPerKgFat;
+      } else {
+        fatGained = calories / ((musclePercentage / fatPercentage) * calPerKgMuscle + calPerKgFat);
+        muscleGained = (musclePercentage / fatPercentage) * fatGained;
+      }
+
+      return { muscle: muscleGained, fat: fatGained };
+    }
+
+    function formatNumber(num) {
+      return Math.round(num).toLocaleString();
+    }
+
+    function getCurrentInputs() {
+      return {
+        mesocycles: document.getElementById('mesocycles').value,
+        weeks_per_mesocycle: document.getElementById('weeks_per_mesocycle').value,
+        deload_weeks: document.getElementById('deload_weeks').value,
+        bulking_kcal: document.getElementById('bulking_kcal').value,
+        deload_kcal: document.getElementById('deload_kcal').value,
+        muscle_ratio: document.getElementById('muscle_ratio').value,
+        cost_per_kg_muscle: document.getElementById('cost_per_kg_muscle').value,
+        cost_per_kg_fat: document.getElementById('cost_per_kg_fat').value
+      };
+    }
+
+    function setInputs(inputs) {
+      document.getElementById('mesocycles').value = inputs.mesocycles;
+      document.getElementById('weeks_per_mesocycle').value = inputs.weeks_per_mesocycle;
+      document.getElementById('deload_weeks').value = inputs.deload_weeks;
+      document.getElementById('bulking_kcal').value = inputs.bulking_kcal;
+      document.getElementById('deload_kcal').value = inputs.deload_kcal;
+      document.getElementById('muscle_ratio').value = inputs.muscle_ratio;
+      document.getElementById('cost_per_kg_muscle').value = inputs.cost_per_kg_muscle;
+      document.getElementById('cost_per_kg_fat').value = inputs.cost_per_kg_fat;
+      calculate();
+    }
+
+    function savePlan() {
+      const planName = document.getElementById('planName').value.trim();
+      if (!planName) {
+        alert('Please enter a name for your plan');
+        return;
+      }
+
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const id = currentPlanId || 'plan_' + Date.now();
+      
+      plans[id] = {
+        name: planName,
+        inputs: getCurrentInputs(),
+        savedAt: new Date().toISOString(),
+        order: plans[id]?.order ?? Date.now()
+      };
+
+      localStorage.setItem('trainingPlans', JSON.stringify(plans));
+      currentPlanId = id;
+      updateTitle(planName);
+      loadPlansList();
+      document.getElementById('planName').value = planName;
+    }
+
+    function loadPlan(id) {
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const plan = plans[id];
+      if (plan) {
+        setInputs(plan.inputs);
+        currentPlanId = id;
+        document.getElementById('planName').value = plan.name;
+        updateTitle(plan.name);
+        loadPlansList();
+      }
+    }
+
+    function deletePlan(id, event) {
+      event.stopPropagation();
+      
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      delete plans[id];
+      localStorage.setItem('trainingPlans', JSON.stringify(plans));
+      
+      if (currentPlanId === id) {
+        currentPlanId = null;
+        document.getElementById('planName').value = '';
+        updateTitle(null);
+      }
+      
+      loadPlansList();
+    }
+
+    function copyPlan(id, event) {
+      event.stopPropagation();
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const originalPlan = plans[id];
+      
+      if (originalPlan) {
+        const newId = 'plan_' + Date.now();
+        const copyName = originalPlan.name + ' (Copy)';
+        
+        plans[newId] = {
+          name: copyName,
+          inputs: {...originalPlan.inputs},
+          savedAt: new Date().toISOString(),
+          order: Date.now()
+        };
+        
+        localStorage.setItem('trainingPlans', JSON.stringify(plans));
+        loadPlansList();
+      }
+    }
+
+    function movePlanUp(id, event) {
+      event.stopPropagation();
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const entries = Object.entries(plans).sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
+      const index = entries.findIndex(([planId]) => planId === id);
+      
+      if (index > 0) {
+        // Swap orders
+        const temp = entries[index][1].order;
+        entries[index][1].order = entries[index - 1][1].order;
+        entries[index - 1][1].order = temp;
+        
+        localStorage.setItem('trainingPlans', JSON.stringify(plans));
+        loadPlansList();
+      }
+    }
+
+    function movePlanDown(id, event) {
+      event.stopPropagation();
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const entries = Object.entries(plans).sort((a, b) => (a[1].order || 0) - (b[1].order || 0));
+      const index = entries.findIndex(([planId]) => planId === id);
+      
+      if (index < entries.length - 1 && index !== -1) {
+        // Swap orders
+        const temp = entries[index][1].order;
+        entries[index][1].order = entries[index + 1][1].order;
+        entries[index + 1][1].order = temp;
+        
+        localStorage.setItem('trainingPlans', JSON.stringify(plans));
+        loadPlansList();
+      }
+    }
+
+    function renamePlan(id, event) {
+      event.stopPropagation();
+      renamingPlanId = id;
+      loadPlansList();
+      // Focus the input after render
+      setTimeout(() => {
+        const input = document.querySelector(`#rename_${id}`);
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }, 0);
+    }
+
+    function saveRename(id, event) {
+      event.stopPropagation();
+      const input = document.querySelector(`#rename_${id}`);
+      const newName = input.value.trim();
+      
+      if (newName) {
+        const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+        plans[id].name = newName;
+        localStorage.setItem('trainingPlans', JSON.stringify(plans));
+        
+        if (currentPlanId === id) {
+          document.getElementById('planName').value = newName;
+          updateTitle(newName);
+        }
+      }
+      
+      renamingPlanId = null;
+      loadPlansList();
+    }
+
+    function cancelRename(event) {
+      event.stopPropagation();
+      renamingPlanId = null;
+      loadPlansList();
+    }
+
+    function updateTitle(planName) {
+      const title = planName ? `Training Plan Inputs — ${planName}` : 'Training Plan Inputs';
+      document.getElementById('pageTitle').textContent = title;
+    }
+
+    function loadPlansList() {
+      const plans = JSON.parse(localStorage.getItem('trainingPlans') || '{}');
+      const plansList = document.getElementById('plansList');
+      
+      if (Object.keys(plans).length === 0) {
+        plansList.innerHTML = '<div class="empty-state">No saved plans yet</div>';
+        return;
+      }
+
+      plansList.innerHTML = Object.entries(plans)
+        .sort((a, b) => (a[1].order || 0) - (b[1].order || 0))
+        .map(([id, plan], index, arr) => {
+          if (renamingPlanId === id) {
+            return `
+              <div class="plan-item ${currentPlanId === id ? 'active' : ''}">
+                <input type="text" id="rename_${id}" class="plan-name-input" value="${escapeHtml(plan.name)}" onclick="event.stopPropagation()">
+                <div class="plan-actions">
+                  <button class="btn-small" onclick="saveRename('${id}', event)" title="Save">✓</button>
+                  <button class="btn-small" onclick="cancelRename(event)" title="Cancel">✗</button>
+                </div>
+              </div>
+            `;
+          }
+          return `
+            <div class="plan-item ${currentPlanId === id ? 'active' : ''}" onclick="loadPlan('${id}')">
+              <div class="plan-name">${escapeHtml(plan.name)}</div>
+              <div class="plan-actions">
+                <button class="btn-small" onclick="movePlanUp('${id}', event)" title="Move Up" ${index === 0 ? 'disabled' : ''}>↑</button>
+                <button class="btn-small" onclick="movePlanDown('${id}', event)" title="Move Down" ${index === arr.length - 1 ? 'disabled' : ''}>↓</button>
+                <button class="btn-small" onclick="renamePlan('${id}', event)" title="Rename">✏️</button>
+                <button class="btn-small" onclick="copyPlan('${id}', event)" title="Make a Copy">📋</button>
+                <button class="btn-small" onclick="deletePlan('${id}', event)" title="Delete">🗑️</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    document.getElementById('inputsForm').addEventListener('input', calculate);
+    window.addEventListener('DOMContentLoaded', () => {
+      calculate();
+      loadPlansList();
+    });
+  </script>
+</body>
+</html>

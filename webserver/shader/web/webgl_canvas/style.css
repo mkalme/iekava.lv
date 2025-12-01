@@ -1,0 +1,16 @@
+.glsl-preview {
+    width: 50%;
+    height: 100%;
+    display: block;
+}
+
+@media (max-width: 800px) {
+    .glsl-preview {
+        height: 50vh;
+        width: 100%;
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: none;          /* remove canvas border if any */
+    }
+}

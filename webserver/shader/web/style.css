@@ -1,0 +1,142 @@
+body,
+html {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #0d0d0f;
+    color: white;
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.left-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #333;
+    height: 100vh;
+}
+
+.tab-header {
+    display: flex;
+    align-items: center;
+    background: #1b1b1f;
+    border-bottom: 1px solid #333;
+}
+
+.tabs-right {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+}
+
+.tab-header .tab-btn {
+    position: relative;
+    padding: 11px 12px;
+    background: #1b1b1f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 0 0 auto;
+    border-radius: 0;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-badge {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    background: #ff6c6b;
+    border-radius: 50%;
+    text-align: center;
+    visibility: hidden;
+}
+
+.tab-header .tab-btn.active {
+    background: #2a2a2f;
+    border-bottom: 2px solid #ff6c6b;
+}
+
+.tab-header .shader-label {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.tab-content {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+@media (max-width: 800px) {
+    .container {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .left-panel {
+        height: 50vh;
+        width: 100%;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .tab-header {
+        flex: 0 0 auto;
+        background: #1b1b1f;
+        border-bottom: 1px solid #333;
+        padding: 6px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .tab-content {
+        display: none !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .tab-content.active {
+        display: flex !important;
+        height: auto !important;
+        flex: 1 1 auto !important;
+    }
+
+    #codeTab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        min-height: 0;
+        padding: 0;
+    }
+}

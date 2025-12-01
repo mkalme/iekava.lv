@@ -1,0 +1,124 @@
+.notes-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 0px;
+    width: 400px;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.notes-container h2 {
+    margin-bottom: 10px;
+    color: #2d3748;
+    font-weight: normal;
+}
+
+.user-info {
+    min-height: 35px;
+    max-height: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    display: block;
+}
+
+.user-info .username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4299e1;
+    margin-bottom: 3px;
+}
+
+.user-info .user-id {
+    font-size: 11px;
+    color: #718096;
+    font-weight: normal;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.notes-textarea {
+    width: 100%;
+    height: 200px;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #cbd5e0;
+    border-radius: 0px;
+    background: #ffffff;
+    color: #2d3748;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.notes-textarea:focus {
+    outline: 2px solid #3182ce;
+    border-color: #3182ce;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.notes-container button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 0px;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.save-btn {
+    background: #4299e1;
+}
+
+.save-btn:hover {
+    background: #3182ce;
+}
+
+.save-btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    color: #718096;
+}
+
+.logout-btn {
+    background: #e53e3e;
+}
+
+.logout-btn:hover {
+    background: #c53030;
+}
+
+.logout-btn:disabled {
+    background: #a0aec0;
+    cursor: not-allowed;
+    color: #718096;
+}
+
+.auto-save-indicator {
+    color: #38a169;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Override the global message styles to make them full width within notes container */
+.notes-container .error-message,
+.notes-container .success-message {
+    width: 100%;
+    box-sizing: border-box;
+}

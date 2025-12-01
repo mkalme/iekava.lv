@@ -1,5 +1,8 @@
 const API_BASE_URL = 'https://iekava.lv'; // Replace with your API URL
 
+// Track original text to compare changes
+let originalText = '';
+
 /**
  * Make authenticated API calls (cookies sent automatically)
  */
@@ -28,6 +31,23 @@ async function makeAuthenticatedRequest(url, options = {}) {
     } catch (error) {
         console.error('API request failed:', error);
         throw error;
+    }
+}
+
+/**
+ * Update save button state based on text changes
+ */
+function updateSaveButtonState() {
+    const notesTextarea = document.getElementById('notesText');
+    const saveBtn = document.getElementById('saveBtn');
+    const currentText = notesTextarea.value;
+    
+    if (currentText !== originalText) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Notes';
+    } else {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'No Changes';
     }
 }
 
@@ -75,14 +95,19 @@ async function loadNotes() {
         
         if (response && response.ok) {
             const data = await response.json();
-            notesTextarea.value = data.message || '';
+            const loadedText = data.message || '';
+            notesTextarea.value = loadedText;
+            
+            // Store original text and update button state
+            originalText = loadedText;
+            updateSaveButtonState();
         } else {
             showError('Failed to load notes');
         }
     } catch (error) {
         console.error('Error loading notes:', error);
         showError('Error loading notes: ' + error.message);
-    } finally {}
+    }
 }
 
 /**
@@ -93,6 +118,11 @@ async function saveNotes() {
     const saveBtn = document.getElementById('saveBtn');
     const text = notesTextarea.value;
     
+    // Don't save if no changes
+    if (text === originalText) {
+        return;
+    }
+    
     try {
         saveBtn.disabled = true;
         saveBtn.textContent = 'Saving...';
@@ -102,27 +132,33 @@ async function saveNotes() {
         });
         
         if (response && response.ok) {
+            // Update original text after successful save
+            originalText = text;
             showSuccess('Notes saved successfully!');
+            updateSaveButtonState();
         } else {
             showError('Failed to save notes');
+            updateSaveButtonState();
         }
     } catch (error) {
         console.error('Error saving notes:', error);
         showError('Error saving notes: ' + error.message);
-    } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save Notes';
+        updateSaveButtonState();
     }
 }
 
 /**
- * Logout function
+ * Logout function - saves notes first if there are changes, then logs out
  */
 async function logout() {
     const logoutBtn = document.getElementById('logoutBtn');
     
     try {
         logoutBtn.disabled = true;
+        
+        await saveNotes();
+        
+        // Now proceed with logout
         logoutBtn.textContent = 'Logging out...';
         
         await fetch(`${API_BASE_URL}/api/auth/logout`, {
@@ -209,10 +245,15 @@ function setupAutoSave() {
         clearTimeout(autoSaveTimeout);
         clearMessages();
         
-        // Auto-save after 2 seconds of no typing
-        autoSaveTimeout = setTimeout(() => {
-            saveNotes();
-        }, 2000);
+        // Update save button state immediately
+        updateSaveButtonState();
+        
+        // Auto-save after 2 seconds of no typing (only if there are changes)
+        if (notesTextarea.value !== originalText) {
+            autoSaveTimeout = setTimeout(() => {
+                saveNotes();
+            }, 2000);
+        }
     });
 }
 
@@ -224,27 +265,26 @@ document.getElementById('saveBtn').addEventListener('click', () => {
 });
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
-    if (confirm('Are you sure you want to logout? Any unsaved changes will be lost.')) {
-        logout();
-    }
+    logout();
 });
 
 // Keyboard shortcuts
 document.addEventListener('keydown', (event) => {
-    // Ctrl+S or Cmd+S to save
+    // Ctrl+S or Cmd+S to save (only if there are changes)
     if ((event.ctrlKey || event.metaKey) && event.key === 's') {
         event.preventDefault();
-        clearTimeout(autoSaveTimeout);
-        clearMessages();
-        saveNotes();
+        const notesTextarea = document.getElementById('notesText');
+        if (notesTextarea.value !== originalText) {
+            clearTimeout(autoSaveTimeout);
+            clearMessages();
+            saveNotes();
+        }
     }
     
     // Ctrl+L or Cmd+L to logout
     if ((event.ctrlKey || event.metaKey) && event.key === 'l') {
         event.preventDefault();
-        if (confirm('Are you sure you want to logout? Any unsaved changes will be lost.')) {
-            logout();
-        }
+        logout();
     }
 });
 
@@ -270,9 +310,9 @@ window.addEventListener('DOMContentLoaded', async () => {
 // Handle page visibility change (save when user switches tabs/minimizes)
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        // User is leaving the page, save notes
+        // User is leaving the page, save notes only if changed
         const notesTextarea = document.getElementById('notesText');
-        if (notesTextarea.value.trim()) {
+        if (notesTextarea.value.trim() && notesTextarea.value !== originalText) {
             saveNotes();
         }
     }
@@ -281,7 +321,7 @@ document.addEventListener('visibilitychange', () => {
 // Handle beforeunload (when user closes tab/refreshes)
 window.addEventListener('beforeunload', (event) => {
     const notesTextarea = document.getElementById('notesText');
-    if (notesTextarea.value.trim()) {
+    if (notesTextarea.value.trim() && notesTextarea.value !== originalText) {
         // Note: Modern browsers limit what you can do here
         // but we'll attempt to save
         navigator.sendBeacon(`${API_BASE_URL}/api/message/${encodeURIComponent(notesTextarea.value)}`, 
