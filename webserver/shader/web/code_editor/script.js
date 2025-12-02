@@ -91,7 +91,12 @@ const shaderPresets = [
     { name: "Checkerboard", path: "code_editor/fragment_presets/checkerboard.frag" },
     { name: "Plasma", path: "code_editor/fragment_presets/plasma.frag" },
     { name: "Complex Fractal", path: "code_editor/fragment_presets/complex_fractal.frag" },
-    { name: "Ray Marching", path: "code_editor/fragment_presets/ray_marching.frag" }
+    { name: "Ray Marching", path: "code_editor/fragment_presets/ray_marching.frag" },
+    { name: "Fractal Pyramid", path: "code_editor/fragment_presets/fractal_pyramid.frag" },
+    { name: "kishimisu", path: "code_editor/fragment_presets/kishimisu.frag" },
+    { name: "mandelbulb_", path: "code_editor/fragment_presets/mandelbulb_.frag" },
+    { name: "Seascape", path: "code_editor/fragment_presets/seascape.frag" },
+    { name: "Minecraft", path: "code_editor/fragment_presets/minecraft.frag" }
 ];
 
 const presetSelector = document.getElementById('shaderPreset');
