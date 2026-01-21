@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #4ec0ca 0%, #87ceeb 100%);
+            font-family: Arial, sans-serif;
+        }
+        #gameContainer {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.2.4/pixi.min.js"></script>
+    <script>
+        const app = new PIXI.Application({
+            width: 400,
+            height: 600,
+            backgroundColor: 0x4ec0ca,
+            antialias: true
+        });
+
+        document.getElementById('gameContainer').appendChild(app.view);
+
+        // Game variables
+        let bird;
+        let pipes = [];
+        let score = 0;
+        let gameOver = false;
+        let gameStarted = false;
+        let gravity = 0.5;
+        let velocity = 0;
+        let pipeSpeed = 2;
+        let pipeGap = 150;
+        let pipeInterval = 90;
+        let frameCount = 0;
+
+        // Create bird
+        function createBird() {
+            const birdGraphics = new PIXI.Graphics();
+            birdGraphics.beginFill(0xffeb3b);
+            birdGraphics.drawCircle(0, 0, 15);
+            birdGraphics.endFill();
+            
+            // Eye
+            birdGraphics.beginFill(0x000000);
+            birdGraphics.drawCircle(5, -3, 3);
+            birdGraphics.endFill();
+            
+            // Beak
+            birdGraphics.beginFill(0xff9800);
+            birdGraphics.moveTo(15, 0);
+            birdGraphics.lineTo(25, -5);
+            birdGraphics.lineTo(25, 5);
+            birdGraphics.closePath();
+            birdGraphics.endFill();
+            
+            birdGraphics.x = 100;
+            birdGraphics.y = app.screen.height / 2;
+            
+            return birdGraphics;
+        }
+
+        bird = createBird();
+        app.stage.addChild(bird);
+
+        // Create pipe
+        function createPipe(x) {
+            const pipeContainer = new PIXI.Container();
+            
+            const gapY = Math.random() * (app.screen.height - pipeGap - 200) + 100;
+            
+            // Top pipe
+            const topPipe = new PIXI.Graphics();
+            topPipe.beginFill(0x4caf50);
+            topPipe.drawRect(0, 0, 60, gapY);
+            topPipe.endFill();
+            
+            // Top pipe cap
+            topPipe.beginFill(0x66bb6a);
+            topPipe.drawRect(-5, gapY - 20, 70, 20);
+            topPipe.endFill();
+            
+            // Bottom pipe
+            const bottomPipe = new PIXI.Graphics();
+            bottomPipe.beginFill(0x4caf50);
+            bottomPipe.drawRect(0, gapY + pipeGap, 60, app.screen.height - gapY - pipeGap);
+            bottomPipe.endFill();
+            
+            // Bottom pipe cap
+            bottomPipe.beginFill(0x66bb6a);
+            bottomPipe.drawRect(-5, gapY + pipeGap, 70, 20);
+            bottomPipe.endFill();
+            
+            pipeContainer.addChild(topPipe);
+            pipeContainer.addChild(bottomPipe);
+            pipeContainer.x = x;
+            pipeContainer.scored = false;
+            pipeContainer.gapY = gapY;
+            
+            return pipeContainer;
+        }
+
+        // Score text
+        const scoreText = new PIXI.Text('0', {
+            fontFamily: 'Arial',
+            fontSize: 48,
+            fill: 0xffffff,
+            fontWeight: 'bold',
+            stroke: 0x000000,
+            strokeThickness: 4
+        });
+        scoreText.x = app.screen.width / 2;
+        scoreText.y = 50;
+        scoreText.anchor.set(0.5);
+        app.stage.addChild(scoreText);
+
+        // Start text
+        const startText = new PIXI.Text('Click or Press Space to Start', {
+            fontFamily: 'Arial',
+            fontSize: 24,
+            fill: 0xffffff,
+            fontWeight: 'bold',
+            stroke: 0x000000,
+            strokeThickness: 3
+        });
+        startText.x = app.screen.width / 2;
+        startText.y = app.screen.height / 2 + 50;
+        startText.anchor.set(0.5);
+        app.stage.addChild(startText);
+
+        // Game over text
+        const gameOverText = new PIXI.Text('Game Over!\nClick to Restart', {
+            fontFamily: 'Arial',
+            fontSize: 32,
+            fill: 0xff0000,
+            fontWeight: 'bold',
+            stroke: 0xffffff,
+            strokeThickness: 4,
+            align: 'center'
+        });
+        gameOverText.x = app.screen.width / 2;
+        gameOverText.y = app.screen.height / 2;
+        gameOverText.anchor.set(0.5);
+        gameOverText.visible = false;
+        app.stage.addChild(gameOverText);
+
+        // Jump function
+        function jump() {
+            if (!gameStarted) {
+                gameStarted = true;
+                startText.visible = false;
+            }
+            if (!gameOver) {
+                velocity = -8;
+            } else {
+                resetGame();
+            }
+        }
+
+        // Input handlers
+        app.view.addEventListener('click', jump);
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+        });
+
+        // Collision detection
+        function checkCollision() {
+            if (bird.y < 0 || bird.y > app.screen.height) {
+                return true;
+            }
+            
+            for (let pipe of pipes) {
+                const birdLeft = bird.x - 15;
+                const birdRight = bird.x + 15;
+                const birdTop = bird.y - 15;
+                const birdBottom = bird.y + 15;
+                
+                const pipeLeft = pipe.x;
+                const pipeRight = pipe.x + 60;
+                
+                if (birdRight > pipeLeft && birdLeft < pipeRight) {
+                    if (birdTop < pipe.gapY || birdBottom > pipe.gapY + pipeGap) {
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+
+        // Reset game
+        function resetGame() {
+            gameOver = false;
+            gameStarted = false;
+            score = 0;
+            velocity = 0;
+            bird.y = app.screen.height / 2;
+            scoreText.text = '0';
+            gameOverText.visible = false;
+            startText.visible = true;
+            
+            pipes.forEach(pipe => app.stage.removeChild(pipe));
+            pipes = [];
+            frameCount = 0;
+        }
+
+        // Game loop
+        app.ticker.add(() => {
+            if (!gameStarted) return;
+            if (gameOver) return;
+            
+            frameCount++;
+            
+            // Apply gravity to bird
+            velocity += gravity;
+            bird.y += velocity;
+            bird.rotation = Math.min(velocity * 0.05, Math.PI / 4);
+            
+            // Spawn pipes
+            if (frameCount % pipeInterval === 0) {
+                const pipe = createPipe(app.screen.width);
+                pipes.push(pipe);
+                app.stage.addChild(pipe);
+            }
+            
+            // Move and check pipes
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                const pipe = pipes[i];
+                pipe.x -= pipeSpeed;
+                
+                // Score when passing pipe
+                if (!pipe.scored && bird.x > pipe.x + 60) {
+                    pipe.scored = true;
+                    score++;
+                    scoreText.text = score;
+                }
+                
+                // Remove off-screen pipes
+                if (pipe.x < -60) {
+                    app.stage.removeChild(pipe);
+                    pipes.splice(i, 1);
+                }
+            }
+            
+            // Check collision
+            if (checkCollision()) {
+                gameOver = true;
+                gameOverText.visible = true;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 # Debugging
-sudo dotnet build /home/mikelis.kalme/iekava.lv/webserver/@/api && sudo dotnet run --project /home/mikelis.kalme/iekava.lv/webserver/@/api
+sudo dotnet build /home/mikelis.kalme/iekava.lv/webserver/portal/api && sudo dotnet run --project /home/mikelis.kalme/iekava.lv/webserver/portal/api
 sudo pkill dotnet
 
 # Migrating

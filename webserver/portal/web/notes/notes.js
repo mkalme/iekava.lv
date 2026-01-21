@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://iekava.lv'; // Replace with your API URL
+const API_BASE_URL = 'https://portal.iekava.lv'; // Replace with your API URL
 
 // Track original text to compare changes
 let originalText = '';
