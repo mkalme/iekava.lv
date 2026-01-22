@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../blank/styles.css" id="pageStyle">
+		<link rel="icon" href="../blank/images/logo.ico">
+		<title>Contact</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="awarome.com contact page.">
+		<meta name="keywords" content="ASCII,ASCII art,generator,converter,tools,awarome,contact,contactpage">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<div id="header"></div>
+		
+		<div align="center" id="center">
+			<div id="path">
+				<a href="../home/Home.html" class="path" style="padding-left: 1px;">Home</a> > 
+				<a href="Contact.html" class="path">Contact</a>
+			</div>
+			
+			<div id="header-name">
+				<h1>Contact</h1>
+			</div>
+			
+			<div id="body">
+				<label class="convertT">You can contact us on <b>info@awarome.com</b></label><br /><br /><br />
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+		
+		<script defer="defer" type="text/javascript">
+			if (/mobile/i.test(navigator.userAgent)) {swapStyle("../blank/mobilestyles.css");}
+			function swapStyle(file) {
+				var a = document.getElementById("pageStyle");
+				a.href = file;
+			}
+		</script>
+		
+		<script defer="defer">
+			$(function() {
+				$('#header').load("../blank/blank.html");
+			});
+		</script>
+	</body>
+</html>

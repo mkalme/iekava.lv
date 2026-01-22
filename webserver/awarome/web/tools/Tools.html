@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../blank/styles.css" id="pageStyle">
+		<link rel="icon" href="../blank/images/logo.ico">
+		<title>Tools</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="awarome.com online tools.">
+		<meta name="keywords" content="ASCII,ASCII art,generator,converter,tools,awarome,generator">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<div id="header"></div>
+		
+		<div align="center" id="center">
+			<div id="path" style="padding-left: 1px;">
+				<a href="../home/Home.html" class="path">Home</a> > 
+				<a href="Tools.html" class="path">Tools</a>
+			</div>
+			
+			<div id="header-name">
+				<h1>Online Tools</h1>
+			</div>
+			
+			<div id="body" style="margin-top: 1vw;">
+				<div class = "toolContainer_wrap"><!--Image to text converter-->
+					<div class = "toolContainer_inside">
+						<div class="toolContainer_header">
+							<a class="toolContainer_link" href="Image to text converter/Image to text converter.html">Image to text converter</a> <label class="toolContainer_date">Added on date: 07.06.2018</label>
+						</div>
+						<div class="toolContainer_description">
+							<i>Image To Text Art</i> is a tool which converts an image to a string of text called ascii art. This tool is very simple to use.
+							It can also enable real colour and save file.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+		
+		<script defer="defer" type="text/javascript">
+			if (/mobile/i.test(navigator.userAgent)) {swapStyle("../blank/mobilestyles.css");}
+			function swapStyle(file) {
+				var a = document.getElementById("pageStyle");
+				a.href = file;
+			}
+		</script>
+		
+		<script defer="defer">
+			$(function() {
+				$('#header').load("../blank/blank.html");
+			});
+		</script>
+	</body>
+</html>

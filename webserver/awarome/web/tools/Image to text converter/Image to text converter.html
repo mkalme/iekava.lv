@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ASCII art generator</title>
+		<link rel="stylesheet" href="../../blank/styles.css" id="pageStyle">
+		<script type="text/javascript" src="scripts/convert.js"></script>
+		<script type="text/javascript" src="scripts/convertColor.js"></script>
+		<script type="text/javascript" src="scripts/downloadText.js"></script>
+		<script type="text/javascript" src="scripts/downloadHTML.js"></script>
+		<script type="text/javascript" src="scripts/downloadImage.js"></script>
+		<link rel="icon" href="../../blank/images/logo.ico">
+		<meta charset="UTF-8">
+		<meta name="description" content="Image To Text Art is a tool which converts an image to a string of text called ascii art. This tool is very simple to use. It can also enable real colour.">
+		<meta name="keywords" content="ASCII,ASCII art,generator,converter,tools,awarome,generator">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+		<div id="header"></div>
+		
+		<div align="center" id="center">
+			<div id="path">
+				<a href="../../Home.html" class="path" style="padding-left: 1px;">Home</a> > 
+				<a href="../Tools.html" class="path">Tools</a> > 
+				<a href="Image to text converter.html" class="path">Image to text converter</a>
+			</div>
+			
+			<div id="header-name">
+				<h1>Image to text converter</h1>
+			</div>
+			
+			<div id="body">
+				<div id="selectFileDiv">
+					<p class="convertT">Select File</p>
+			
+					<button onclick="document.getElementById('readIMG').click();" class="button">Open</button>
+					<input id="readIMG" type="file" name="name" onchange="changeLabel(this)">
+					<label id="label_fileName" class="convertT">No files selected</label>
+				</div>
+			
+				<div id="inputField_widthDiv">
+					<p class="convertT"> Width (in characters)</p>
+					<input type='numbers' id="width" value="200"/><br />
+				</div>
+				
+				<input type="checkbox" id="colorBox"><label class="convertT">Enable color</label><br /><br />
+				
+				<button type="button" onclick="check();" class="button">Convert</button><br /><br />
+				
+				<p class="convertT">Examples</p>
+				<image src="images/image2.png" style="width: 50%;" alt="Ascii art"></image>			<image src="images/image.png" style="width: 44.3%;" alt="Ascii art"></image></br></br>
+				<label class="convertT">For more samples click <a class="universalLink_Orange" href="samples.html">here.</a></label>
+			</div>
+		</div>
+		
+		
+		
+		<div id="center-textArea" style="display:none">
+			<div align="left" id="top-buttonDiv">
+				<div id="buttonContainer">
+					<button type="button" class="button" onclick="downloadTextFile();" id="downloadFileButton">Save as text file</button>
+					<button type="button" class="button" onclick="downloadHTMLFile();">Save as html file</button>
+					<button type="button" class="button" onclick="downloadImageFile();">Save as image file</button><br /><br />
+				</div>
+			</div>
+		
+			<div id="text">
+				<span id="span1">
+					<div id="text-inside" data-type="0">
+						<p id="converted-text" style="font-family:Consolas, Courier, Courier New, Lucida Console, Monaco;" />
+					</div>
+				</span>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+		
+		<script defer="defer" type="text/javascript">
+			if (/mobile/i.test(navigator.userAgent)) {swapStyle("../../blank/mobilestyles.css");}
+			function swapStyle(file) {
+				var a = document.getElementById("pageStyle");
+				a.href = file;
+			}
+		</script>
+		
+		<script defer="defer">
+			$(function() {
+				$('#header').load("../../blank/blank.html");
+			});
+		</script>
+		
+		<script defer="defer" type="text/javascript">
+			function check(){
+				if(document.getElementById('colorBox').checked){
+					bridge_colorEnabled();
+				}else{
+					bridge();
+				}
+			}
+		</script>
+	</body>
+</html>

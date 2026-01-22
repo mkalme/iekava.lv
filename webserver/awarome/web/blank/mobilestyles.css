@@ -1,0 +1,382 @@
+/* ============================================ UNIVERSAL ==================================================== */
+body,html {
+	font-family: Verdana;
+	margin:0;
+	padding:0;
+	padding-bottom: 15px;
+}
+		
+h1{
+	padding: 0px;
+	margin: 0px;
+	font-size: 3vh;
+	font-weight:normal;
+}
+			
+h2{
+	padding: 0px;
+	margin: 0px;
+	font-size: 2vh;
+	font-weight:normal;
+}
+
+/*input-textField*/
+input[type="numbers"]{
+	padding: 8px;
+	line-height: 10px;
+}
+
+span {
+	display: inline-block ;
+}
+
+.convertT{
+	font-size: 2vh;
+	line-height: 1vh;
+}
+
+
+
+/* ============================================= NAVIGATION BAR =========================================== */
+#header{
+	background-color: #303030;
+	height: 7vh;
+}
+
+#top-navbar a {
+	background-color: #303030;
+	color: white;
+	
+	text-align: center;
+	text-decoration: none;
+	font-size: 2.5vh;
+	line-height: 7vh;
+	
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 2vh;
+	padding-right: 2vh;
+	
+	display: inline-block;
+	list-style-type: none;
+}
+
+#top-navbar a:hover {
+	background: linear-gradient(#E98600, #C67000);
+}
+
+#top-navbar a.active {
+	background: linear-gradient(#E98600, #C67000);
+}
+
+#top-navbar{
+	text-align: bottom;
+	width:  100%;
+	
+	float: center;
+	
+	overflow: hidden;
+	background-color: #303030;
+	height: 7vh;
+}
+
+
+
+/* ====================================================== ERROR IMAGES ==================================================== */
+.errorImage{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+
+
+
+/* ================================================ PAGE BODY ============================================= */
+#center{
+	text-align: left;
+	margin: auto;
+	width: 90vw;
+}
+
+#header-name{
+	border-bottom: 1vh solid #B6B6B6;
+	padding-bottom: 1vh;
+	padding-top: 3vh;
+}
+
+#path a{
+	color: black;
+	text-decoration: none;
+}
+
+#path{
+	padding-top: 1vh;
+	font-size: 1.5vh;
+}
+
+
+
+/* ==================================================== IMAGE TO TEXT CONVERTER-FRONTPAGE ===================================================== */
+#selectFileDiv{
+	padding-bottom: 2vh;
+}
+
+#inputField_widthDiv{
+	padding-bottom: 2vh;
+}
+
+#readIMG{
+	display: none;
+}
+
+
+
+/* ==================================================== IMAGE TO TEXT CONVERTER-RESULTPAGE ===================================================== */
+#center-textArea{
+	max-width: 100%;
+	margin: auto;
+	text-align: center;
+}
+
+#text-inside{
+	background-color: WHITE;
+	display: block;
+	box-shadow: 0.25vh 0.25vh 0.5vh 0.25vh #B7B7B7;
+	padding: 0.5vh;
+}
+
+#text-inside p{
+	margin: 0;
+	padding: 0;
+}
+
+#downloadFileButton{
+	display: none;
+}
+
+#top-buttonDiv{
+	margin: auto;
+	margin-top: 1vw;
+	padding-left: 2vh;
+	padding-right: 2vh;
+	padding-top: 1vh;
+}
+
+#buttonContainer{
+	float: center;
+}
+
+#buttonContainer button{
+	margin-top: 0.5vh;
+}
+
+#top-buttonDiv button{
+	display: inline-block;
+	width: 100%;
+}
+
+#body{
+	padding: 0;
+	padding-top: 2vh;
+}
+
+#text{
+	min-width: 15vw;
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+*{
+	box-sizing: border-box
+}
+
+
+
+/* ============================================= UNIVERSAL_CONTROLS - LINK ===================================================== */
+.universalLink_Orange{
+	text-decoration: none;
+	color: #E18100;
+}
+
+
+
+/* ============================================== UNIVERSAL_CONTROLS - BUTTON ================================================= */
+.container * {
+	padding: 1vh 1vh 1vh;
+}
+
+.button {
+	background-color: #E98600;
+	border-color: #E07F00;
+	color: white;
+	padding: 1vh 3vh;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 2vh;
+}
+
+.button:hover {background-color: #E07F00}
+
+.button:active {
+	background-color: #D67900;
+	transform: translateY(1px);
+}
+
+.button{
+	cursor: pointer;
+}
+
+.button:focus{
+	outline:none;
+}
+
+
+
+/* ============================================ TOOL CONTAINER ============================================= */
+.toolContainer_wrap{
+	width: 100%;
+	box-shadow: 0.25vh 0.25vh 0.5vh 0.25vh #B7B7B7;
+	overflow: hidden;
+}
+
+.toolContainer_inside{
+	padding-top: 0.5vh;
+	padding-bottom: 1.5vh;
+	padding-left: 1vh;
+	padding-right: 1vh;
+}
+
+.toolContainer_header{
+	width: 100%;
+	height: 50%;
+	padding-bottom: 1vh;
+	display:inline;
+}
+
+.toolContainer_link{
+	font-weight: bold;
+	color: #0071C1;
+	text-decoration: none;
+	font-size: 2.4vh;
+}
+
+.toolContainer_date{
+	content:"\a";
+    white-space: pre;
+	font-size: 1.5vh;
+	color: gray;
+}
+
+.toolContainer_description{
+	width: 100%;
+	height: 50%;
+	font-size: 2vh;
+	text-align: justify;
+	margin-top: 0.6vw;
+}
+    
+
+						
+			
+/* =================================== HOME - FRONT PAGE CONTAINER ==================================== */
+.frontPageContainer{
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.frontPageContainer_description{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	padding-bottom: 2vh;
+	text-align: justify;
+}
+
+.slideshow-container.frontPageContainer_slideshow{
+	float: right;
+	max-width: 100%;
+}
+
+
+
+/* ============================================= CONTACTS EMAIL =========================================== */
+#emailContainer{
+	width: 100%;
+}
+
+#emailInputContent{
+	resize: none;
+}
+
+.emailInput{
+	width: 100%;
+	padding: 8px;
+	line-height: 10px;
+	background-color: #F2F2F2;
+	border: 1px solid #C4C4C4;
+}
+
+.emailLabel{
+	display: block;
+	padding-bottom: 3px;
+}
+
+		
+/* ============================================ SLIDESHOW ========================================== */			
+/* Slideshow container */
+.slideshow-container {
+	position: relative;
+	margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: auto;
+	margin-top: -22px;
+	padding: 16px;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+	background-color: rgba(0,0,0,0.8);
+}
+
+/* Fading animation */
+.fade {
+	-webkit-animation-name: fade;
+	-webkit-animation-duration: 1.5s;
+	animation-name: fade;
+	animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
+
+@keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
