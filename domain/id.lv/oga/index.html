@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>oga.id.lv</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         body {
             margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
+            background: #0F090B;
+            overflow: hidden;
         }
-
-        .login-container {
-            text-align: center;
+        canvas {
+            display: block;
         }
     </style>
 </head>
-
 <body>
-    <div class="login-container">
-        <h2>oga.id.lv</h2>
-    </div>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const fontSize = 70;
+        
+        const str = "oga.id.lv ";
+        const shiftPerLine = 90;
+        const lineHeight = fontSize * 1.04;
+        const seed = Math.floor(Math.random() * 1000000);
+
+        function seededRandom(seed) {
+            let state = seed;
+            return function() {
+                state = (state * 1664525 + 1013904223) % 4294967296;
+                return state / 4294967296;
+            };
+        }
+        
+        function draw() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            ctx.font = `bold ${fontSize}px Arial`;
+            ctx.fillStyle = '#261A19';
+            ctx.textBaseline = 'top';
+            const textWidth = ctx.measureText(str).width;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const random = seededRandom(seed);
+
+            const lines = Math.ceil(canvas.height / lineHeight) + 1;
+            for (let i = 0; i < lines; i++) {
+                const y = i * lineHeight;
+                const variation = ((random() * 0.1) + 1) * textWidth;
+                const offset = (i * shiftPerLine + variation) % textWidth - textWidth;
+
+                let x = offset;
+                while (x < canvas.width) {
+                    ctx.fillText(str, x, y);
+                    x += textWidth;
+                }
+            }
+        }
+
+        draw();
+
+        window.addEventListener('resize', () => {       
+            draw();
+        });
+    </script>
 </body>
 </html>
