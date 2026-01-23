@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponge</title>
+    <link rel="icon" type="image/x-icon" href="sponge.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100%;
+            min-height: 100vh;
+            overflow: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+        
+        canvas {
+            display: block;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const img1Path = 'sponge.png';
+        const img2Path = 'wet_sponge.png';
+        const tileSize = 100;
+        
+        const seed = Math.floor(Math.random() * 1000000);
+        function seededRandom(s, x, y) {
+            let hash = s;
+            hash = ((hash << 5) - hash) + x;
+            hash = hash & hash;
+            hash = ((hash << 5) - hash) + y;
+            hash = hash & hash;
+            
+            hash = Math.imul(hash ^ (hash >>> 16), 0x85ebca6b);
+            hash = Math.imul(hash ^ (hash >>> 13), 0xc2b2ae35);
+            hash = hash ^ (hash >>> 16);
+            
+            return (hash >>> 0) / 4294967296;
+        }
+        
+        const img1 = new Image();
+        const img2 = new Image();
+        let imagesLoaded = 0;
+        
+        function onImageLoad() {
+            imagesLoaded++;
+            if (imagesLoaded === 2) {
+                drawTiles();
+            }
+        }
+        
+        img1.onload = onImageLoad;
+        img2.onload = onImageLoad;
+        img1.src = img1Path;
+        img2.src = img2Path;
+        
+        function drawTiles() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const tilesX = Math.ceil(canvas.width / tileSize);
+            const tilesY = Math.ceil(canvas.height / tileSize);
+            
+            ctx.imageSmoothingEnabled = false;
+            
+            for (let y = 0; y < tilesY; y++) {
+                for (let x = 0; x < tilesX; x++) {
+                    const randomImg = seededRandom(seed, x, y) < 0.5 ? img1 : img2;
+                    ctx.drawImage(randomImg, x * tileSize, y * tileSize, tileSize, tileSize);
+                }
+            }
+        }
+        
+        window.addEventListener('resize', () => {
+            if (imagesLoaded === 2) {
+                drawTiles();
+            }
+        });
+    </script>
+</body>
+</html>
