@@ -46,6 +46,7 @@ local function serve_static_page(base_url, error_base_url)
             ngx.header["Content-Type"] = "text/css; charset=utf-8"
         elseif ext == "js" then
             ngx.header["Content-Type"] = "application/javascript; charset=utf-8"
+            ngx.header["Access-Control-Allow-Origin"] = "*"
         elseif ext == "json" then
             ngx.header["Content-Type"] = "application/json; charset=utf-8"
         elseif ext == "png" then
