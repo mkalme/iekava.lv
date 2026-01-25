@@ -45,7 +45,7 @@ export function initCanvas(canvasId, options = {}) {
         const lines = Math.ceil(canvas.height / lineHeight) + 1;
         for (let i = 0; i < lines; i++) {
             const y = i * lineHeight;
-            const variation = ((random() * 0.05) + 1) * textWidth;
+            const variation = ((random() * 0.035) + 1) * textWidth;
             const offset = (i * shiftPerLine + variation) % textWidth - textWidth;
 
             let x = offset;
