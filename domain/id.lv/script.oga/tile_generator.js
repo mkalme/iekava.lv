@@ -35,11 +35,11 @@ export function initTileCanvas(canvasId, options = {}) {
     function onImageLoad() {
         imagesLoaded++;
         if (imagesLoaded === images.length) {
+            resizeCanvas();
             drawTiles();
         }
     }
 
-    // Create and load image objects
     images.forEach((imagePath) => {
         const img = new Image();
         img.onload = onImageLoad;
@@ -51,34 +51,145 @@ export function initTileCanvas(canvasId, options = {}) {
         loadedImages.push(img);
     });
 
-    function drawTiles() {
+    // --- PANNING STATE ---
+    let offsetX = 0; // in pixels
+    let offsetY = 0;
+
+    let isDragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        const tilesX = Math.ceil(canvas.width / tileSize);
-        const tilesY = Math.ceil(canvas.height / tileSize);
-
         ctx.imageSmoothingEnabled = false;
+    }
 
-        for (let y = 0; y < tilesY; y++) {
-            for (let x = 0; x < tilesX; x++) {
-                // Pick a random image from the loaded images
-                const randomValue = seededRandom(seed, x, y);
+    function mod(n, m) {
+        return ((n % m) + m) % m;
+    }
+
+    function drawTiles() {
+        if (imagesLoaded !== images.length) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Which "world" tile is at screen (0,0)?
+        const baseTileX = Math.floor(offsetX / tileSize);
+        const baseTileY = Math.floor(offsetY / tileSize);
+
+        // Pixel remainder inside a tile (keep it positive so drawing is clean)
+        const startX = -mod(offsetX, tileSize);
+        const startY = -mod(offsetY, tileSize);
+
+        // Draw enough tiles to cover the screen + 1
+        const tilesX = Math.ceil(canvas.width / tileSize) + 1;
+        const tilesY = Math.ceil(canvas.height / tileSize) + 1;
+
+        for (let sy = 0; sy < tilesY; sy++) {
+            for (let sx = 0; sx < tilesX; sx++) {
+                const worldX = baseTileX + sx;
+                const worldY = baseTileY + sy;
+
+                const randomValue = seededRandom(seed, worldX, worldY);
                 const imageIndex = Math.floor(randomValue * loadedImages.length);
-                const randomImg = loadedImages[imageIndex];
-                
-                if (randomImg && randomImg.complete) {
-                    ctx.drawImage(randomImg, x * tileSize, y * tileSize, tileSize, tileSize);
+                const img = loadedImages[imageIndex];
+
+                if (img && img.complete) {
+                    ctx.drawImage(
+                        img,
+                        startX + sx * tileSize,
+                        startY + sy * tileSize,
+                        tileSize,
+                        tileSize
+                    );
                 }
             }
         }
     }
 
+    // --- INPUT (MOUSE + TOUCH) ---
+    function getClientPos(e) {
+        if (e.touches && e.touches.length) {
+            return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+        return { x: e.clientX, y: e.clientY };
+    }
+
+    function onDown(e) {
+        // Prevent page scrolling/dragging images on touch
+        e.preventDefault();
+
+        const p = getClientPos(e);
+        isDragging = true;
+        lastX = p.x;
+        lastY = p.y;
+
+        // Capture pointer so you can drag outside canvas
+        if (e.pointerId != null && canvas.setPointerCapture) {
+            canvas.setPointerCapture(e.pointerId);
+        }
+    }
+
+    function onMove(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+
+        const p = getClientPos(e);
+        const dx = p.x - lastX;
+        const dy = p.y - lastY;
+        lastX = p.x;
+        lastY = p.y;
+
+        // Move the "camera" opposite or same direction?
+        // This makes the pattern follow your mouse movement naturally.
+        offsetX -= dx;
+        offsetY -= dy;
+
+        drawTiles();
+    }
+
+    function onUp(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        isDragging = false;
+    }
+
+    // Use Pointer Events when available (covers mouse, pen, touch)
+    const supportsPointer = 'PointerEvent' in window;
+
+    if (supportsPointer) {
+        canvas.addEventListener('pointerdown', onDown);
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+        window.addEventListener('pointercancel', onUp);
+    } else {
+        canvas.addEventListener('mousedown', onDown);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+
+        canvas.addEventListener('touchstart', onDown, { passive: false });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onUp, { passive: false });
+        window.addEventListener('touchcancel', onUp, { passive: false });
+    }
+
+    // Prevent touch scrolling on the canvas area
+    canvas.style.touchAction = 'none';
+
     const resizeHandler = () => {
         if (imagesLoaded === images.length) {
+            resizeCanvas();
             drawTiles();
         }
     };
 
     window.addEventListener('resize', resizeHandler);
+
+    // Optional: return controls if you want to reset offset etc.
+    return {
+        redraw: drawTiles,
+        setOffset(x, y) { offsetX = x; offsetY = y; drawTiles(); },
+        getOffset() { return { x: offsetX, y: offsetY }; }
+    };
 }
