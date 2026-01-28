@@ -2,8 +2,8 @@
 sudo dotnet build /home/mikelis.kalme/webserver/domain/iekava.lv/portal/api && sudo dotnet run --project /home/mikelis.kalme/webserver/domain/iekava.lv/portal/api
 sudo pkill dotnet
 
-# SSL certificate generator
-sudo certbot certonly --manual --preferred-challenges dns -d 'hard.lv,*.hard.lv,oga.id.lv,*.oga.id.lv,iekava.lv,*.iekava.lv,krupis.lv,*.krupis.lv,sponge.lv,*.sponge.lv,wax.lv,*.wax.lv' --force-renewal
+# SSL certificate generator with CloudFlare
+sudo certbot certonly --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --cert-name webserver -d 'iekava.lv,*.iekava.lv,hard.lv,*.hard.lv,oga.id.lv,*.oga.id.lv,krupis.lv,*.krupis.lv,sponge.lv,*.sponge.lv,wax.lv,*.wax.lv,vabole.lat,*.vabole.lat' --force-renewal
 
 # Migrating
 sudo env "PATH=$PATH" dotnet ef migrations add <MigratrionName>
